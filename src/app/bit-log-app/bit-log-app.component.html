@@ -1,1 +1,17 @@
-<p>bit-log-app works!</p>
+<div id="bit-log-app-container">
+    <mat-toolbar color="primary" class="header">
+        <a routerLink="/" routerLinkActive="inactive" ariaCurrentWhenActive="page" id="icon-slot">
+            BitLog
+        </a>
+        <span class="large-spacer"></span>
+        <li class="no-bullet"><a routerLink="#product" routerLinkActive="active-route" ariaCurrentWhenActive="page">product</a></li>
+        <span class="spacer"></span>
+        <li class="no-bullet"><a routerLink="#community" routerLinkActive="active-route" ariaCurrentWhenActive="page">community</a></li>
+        <span class="spacer"></span>
+        <li class="no-bullet"><a routerLink="#developers" routerLinkActive="active-route" ariaCurrentWhenActive="page">developers</a></li>
+      
+        <span class="right-spacer"></span>
+        <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">Connect Wallet</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">{{ shortAddress() }}</button>
+      </mat-toolbar>
+</div>
