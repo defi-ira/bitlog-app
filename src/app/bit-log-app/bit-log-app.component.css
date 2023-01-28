@@ -25,7 +25,6 @@ li.no-bullet {
 .header > * {
     color: black;
     text-decoration: none;
-
 }
 
 a {
@@ -45,4 +44,25 @@ a {
     text-decoration: underline;
 }
 
+.add-commit-form {
+    padding-top: 100px;
+    width: 40%;
+    margin: auto auto;
+}
+
+.full-width {
+    width: 75%;
+}
+
+.view-address-form {
+    padding-top: 20px;
+    width: 40%;
+    margin: auto auto;
+}
+
+.small-form-button {
+    width: 20%;
+    margin: auto 2%;
+    text-align: center;
+}
 

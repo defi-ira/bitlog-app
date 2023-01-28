@@ -25,6 +25,14 @@ export class BitLogAppComponent implements OnInit {
     public shortAddress(): string {
         return this.address.slice(0,4) + "..." + this.address.slice(39,42)
     }
+
+    public logCommit(e: any) {
+        e.preventDefault();
+    }
+
+    public viewAddress(e: any) {
+        e.preventDefault();
+    }
         
     openMetamask(){
         this.contractService.openMetamask().then(resp =>{
