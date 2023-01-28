@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import { BitLogAppComponent } from './bit-log-app/bit-log-app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    BitLogAppComponent
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [BitLogAppComponent]
 })
 export class AppModule { }
