@@ -66,3 +66,7 @@ a {
     text-align: center;
 }
 
+.commit-list {
+    width: 60%;
+    margin: auto auto;
+}

@@ -6,28 +6,31 @@
       
         <span class="right-spacer"></span>
         <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">Connect Wallet</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="disconnect()" style="margin-right: 10px; color: white;">Disconnect</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">{{ shortAddress() }}</button>
     </mat-toolbar>
 
-    <form class="add-commit-form">
+    <div class="add-commit-form">
         <mat-form-field class="full-width">
             <mat-label>commit id</mat-label>
-            <input matInput placeholder="Ox...">
+            <input matInput [(ngModel)]="commitInput" name="commitId" placeholder="Ox...">
         </mat-form-field>
         <button mat-raised-button color="primary" class="small-form-button" *ngIf="!walletConnected()" disabled>Log Commit</button>
         <button mat-raised-button color="primary" class="small-form-button" *ngIf="walletConnected()" (click)="logCommit($event)">Log Commit</button>
-    </form>
+    </div>
 
-    <form class="view-address-form">
+    <div class="view-address-form">
         <mat-form-field class="full-width">
             <mat-label>address</mat-label>
-            <input matInput placeholder="Ox..." value="{{ address }}">
+            <input matInput placeholder="Ox..." [(ngModel)]="address">
         </mat-form-field>
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View Commits</button>
-    </form>
+    </div>
 
     <div class="commit-list">
-        
+        <div *ngFor="let commit of commits">
+            <p>{{ commit }}</p>
+        </div>
     </div>
 
 </div>
