@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContractService } from '../services/ContractService';
 import { Alchemy, Network } from "alchemy-sdk";
 import { ethers, BigNumber } from 'ethers';
+import { Commit } from '../model/Commit';
 
 declare const window: any;
 
@@ -29,7 +30,7 @@ export class BitLogAppComponent implements OnInit {
     public address: string;
     public commitInput: string;
 
-    public commits: string[];
+    public commits: Commit[];
 
     constructor(private contractService: ContractService) {
         this.address = "";
@@ -65,14 +66,25 @@ export class BitLogAppComponent implements OnInit {
     public async writeCommit() {
         const connect = await this.contract.connect(this.provider);
         console.log(this.commitInput);
-        await this.contract['addCommit'](BigNumber.from("0x" + this.commitInput.substring(0,15)));
+        await this.contract['addCommit'](BigNumber.from(this.commitInput).toHexString());
     }
 
     public async getCommits(address: string) {
         const numCommits = await this.contract['getNumCommits'](this.address);
         const allCommits = await this.contract['getAllCommits'](this.address, numCommits);
-        this.commits = allCommits;
-        console.log(allCommits);
+        for (let i = 0; i < allCommits.length; i++) {
+            const id = await this.contract['getCommitId'](allCommits[i]);
+            this.commits.push(new Commit(this.address, id));
+        }
+        this.setTimestamps(this.commits);
+    }
+
+    public async setTimestamps(commits: Commit[]) {
+        for (let i = 0; i < commits.length; i++) {
+            console.log(commits[i].commitId);
+            const timestamp = await this.contract['getCommitTime'](commits[i].commitId)
+            commits[i].setTimestamp(timestamp);
+        }
     }
 
     public viewAddress(e: any) {
@@ -86,3 +98,4 @@ export class BitLogAppComponent implements OnInit {
     })}
 
 }
+

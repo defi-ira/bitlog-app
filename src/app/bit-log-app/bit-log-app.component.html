@@ -28,8 +28,10 @@
     </div>
 
     <div class="commit-list">
-        <div *ngFor="let commit of commits">
-            <p>{{ commit }}</p>
+        <div class="commit-item" *ngFor="let commit of commits">
+            <p>{{ commit.address }}</p>
+            <p>{{ commit.commitId }}</p>
+            <p>{{ commit.timestamp }}</p>
         </div>
     </div>
 

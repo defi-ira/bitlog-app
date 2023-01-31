@@ -70,3 +70,7 @@ a {
     width: 60%;
     margin: auto auto;
 }
+
+.commit-item {
+    border-style: solid;
+}
