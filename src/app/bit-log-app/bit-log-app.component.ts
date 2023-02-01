@@ -3,6 +3,7 @@ import { ContractService } from '../services/ContractService';
 import { Alchemy, Network } from "alchemy-sdk";
 import { ethers, BigNumber } from 'ethers';
 import { Commit } from '../model/Commit';
+import { environment } from '../../environments/environment';
 
 declare const window: any;
 
@@ -18,12 +19,12 @@ export class BitLogAppComponent implements OnInit {
     private web3: any = require('web3');
 
     private config = {
-        apiKey: "",
+        apiKey: environment.INFURA_ARB_KEY,
         network: Network.ARB_MAINNET,
     };
 
     private provider = new ethers.providers.Web3Provider(window.ethereum, 'arbitrum');
-    private contract_address = "";
+    private contract_address = environment.ARB_CONTRACT_ADDR;
 
     private contract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.provider.getSigner());
 
@@ -47,7 +48,7 @@ export class BitLogAppComponent implements OnInit {
     }
 
     public shortAddress(): string {
-        return this.address.slice(0,4) + "..." + this.address.slice(39,42)
+        return this.address.slice(0,4) + "..." + this.address.slice(38,42)
     }
 
     disconnect() {
@@ -66,7 +67,7 @@ export class BitLogAppComponent implements OnInit {
     public async writeCommit() {
         const connect = await this.contract.connect(this.provider);
         console.log(this.commitInput);
-        await this.contract['addCommit'](BigNumber.from(this.commitInput).toHexString());
+        await this.contract['addCommit'](BigNumber.from(this.commitInput).toHexString(), BigNumber.from(this.address).toHexString);
     }
 
     public async getCommits(address: string) {
@@ -74,7 +75,7 @@ export class BitLogAppComponent implements OnInit {
         const allCommits = await this.contract['getAllCommits'](this.address, numCommits);
         for (let i = 0; i < allCommits.length; i++) {
             const id = await this.contract['getCommitId'](allCommits[i]);
-            this.commits.push(new Commit(this.address, id));
+            this.commits.push(new Commit(this.address, this.address, id));
         }
         this.setTimestamps(this.commits);
     }
@@ -89,6 +90,7 @@ export class BitLogAppComponent implements OnInit {
 
     public viewAddress(e: any) {
         e.preventDefault();
+        this.commits = [];
         this.getCommits(this.address);
     }
         
