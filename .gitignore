@@ -44,3 +44,6 @@ Thumbs.db
 secrets.txt
 
 ./src/environments/*
+
+.firebase/
+.firebaserc
