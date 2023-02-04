@@ -172,3 +172,8 @@ a {
     margin-left: 10px;
     margin-top: 5px;
 }
+
+#gh-link {
+    margin-left: 30px;
+    color: #3B557E;
+}
