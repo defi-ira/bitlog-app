@@ -5,6 +5,7 @@ import { ethers, BigNumber } from 'ethers';
 import { Commit } from '../model/Commit';
 import { environment } from '../../environments/environment';
 import { DatePipe } from '@angular/common'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare const window: any;
 
@@ -35,7 +36,7 @@ export class BitLogAppComponent implements OnInit {
 
     public commits: Commit[];
 
-    constructor(private contractService: ContractService, public datepipe: DatePipe) {
+    constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
         this.address = "";
         this.commitInput = "";
         this.commits = [];
@@ -47,7 +48,11 @@ export class BitLogAppComponent implements OnInit {
 
     formatDate(date: Date | undefined){
         return this.datepipe.transform(date, 'dd-mm-yyyy');
-       }
+    }
+
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action);
+    }
 
     public walletConnected(): boolean {
         return this.address.length > 0;
@@ -76,13 +81,16 @@ export class BitLogAppComponent implements OnInit {
 
     public async writeCommit() {
         const connect = await this.contract.connect(this.provider);
-        console.log(this.commitInput);
-        await this.contract['addCommit'](BigNumber.from(this.commitInput).toHexString(), BigNumber.from(this.address).toHexString);
+        await this.contract['addCommit'](BigNumber.from("0x" + this.commitInput).toHexString(), BigNumber.from(this.address).toHexString());
     }
 
     public async getCommits(address: string) {
         const numCommits = await this.contract['getNumCommits'](this.address);
         const allCommits = await this.contract['getAllCommits'](this.address, numCommits);
+        if (allCommits.length == 0) {
+            this.openSnackBar("No history found for address.", "close");
+        }
+
         for (let i = 0; i < allCommits.length; i++) {
             const id = await this.contract['getCommitId'](allCommits[i]);
             this.commits.push(new Commit(this.address, this.address, id));

@@ -82,7 +82,7 @@ a {
 
 @font-face {
     font-family: Audiowide;
-    src: url(../../assets/fonts/Audiowide-Regular.ttf) format("truetype");
+    src: url(../../assets/Audiowide-Regular.ttf) format("truetype");
 }
 
 * {
