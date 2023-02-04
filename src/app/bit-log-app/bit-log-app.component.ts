@@ -85,6 +85,11 @@ export class BitLogAppComponent implements OnInit {
     }
 
     public async getCommits(address: string) {
+        if (address.length != 42) {
+            this.openSnackBar("Invalid address, expected 42 chars.", "close");
+            return;
+        }
+
         const numCommits = await this.contract['getNumCommits'](this.address);
         const allCommits = await this.contract['getAllCommits'](this.address, numCommits);
         if (allCommits.length == 0) {
