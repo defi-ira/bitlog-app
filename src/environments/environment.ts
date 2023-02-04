@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  INFURA_ARB_KEY: "JebMzg78a_jXITNJccFJ88ej_GDmlHii",
+  ARB_CONTRACT_ADDR: "0x4033442ad9519F6Dc6f4C2C21e952059670a2FA0"
 };
 
 /*

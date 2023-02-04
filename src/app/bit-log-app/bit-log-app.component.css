@@ -74,3 +74,11 @@ a {
 .commit-item {
     border-style: solid;
 }
+
+#bitlog-logo {
+    margin-top: 10px;
+}
+
+* {
+    font-family: 'Audiowide', 'arial', sans-serif;
+}

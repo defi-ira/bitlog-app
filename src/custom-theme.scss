@@ -4,15 +4,44 @@
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
+@use '@angular/material/theming';
+
+$bitlog-typography: mat-typography-config(
+  $font-family: 'Audiowide, monospace',
+);
+
+@include mat.angular-material-typography($bitlog-typography);
+
+
+$blue-palette: (
+ 50: #e4f4fb,
+ 100: #bbe3f6,
+ 200: #3b557e,
+ 300: #3b557e,
+ 400: #3b557e,
+ 500: #3b557e,
+ 600: #3b557e,
+ 700: #3b557e,
+ 800: #3b557e,
+ 900: #3b557e,
+ contrast: (
+   50: #f0f0f0,
+   100: #f0f0f0,
+   200: #f0f0f0,
+   300: #f0f0f0,
+   400: #f0f0f0,
+   500: #f0f0f0,
+   600: #f0f0f0,
+   700: #f0f0f0,
+   800: #f0f0f0,
+   900: #f0f0f0,
+ )
+);
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$bitlog-app-primary: mat.define-palette(mat.$indigo-palette);
+$bitlog-app-primary: mat.define-palette($blue-palette);
 $bitlog-app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -21,11 +50,12 @@ $bitlog-app-warn: mat.define-palette(mat.$red-palette);
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $bitlog-app-theme: mat.define-light-theme((
-  color: (
-    primary: $bitlog-app-primary,
-    accent: $bitlog-app-accent,
-    warn: $bitlog-app-warn,
-  )
+    typography: $bitlog-typography,
+    color: (
+        primary: $bitlog-app-primary,
+        accent: $bitlog-app-accent,
+        warn: $bitlog-app-warn,
+    )
 ));
 
 // Include theme styles for core and each component used in your app.
@@ -33,3 +63,7 @@ $bitlog-app-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($bitlog-app-theme);
 
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
