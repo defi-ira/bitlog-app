@@ -10,7 +10,13 @@
         <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">{{ shortAddress() }}</button>
     </mat-toolbar>
 
-    <div class="add-commit-form">
+    <div id="bitlog-heading">
+        <h2>bitlog</h2>
+        <p>Proof-of-Commit-Protocol (PoCP) uses version control commit ids to crystallize effort in crpytographic history </p>
+        <a href=""><span id="smart-contract-link">smart contract</span></a>
+    </div>
+
+    <div class="add-commit-form bl-form">
         <mat-form-field class="full-width">
             <mat-label>commit id</mat-label>
             <input matInput [(ngModel)]="commitInput" name="commitId" placeholder="Ox...">
@@ -19,7 +25,7 @@
         <button mat-raised-button color="primary" class="small-form-button" *ngIf="walletConnected()" (click)="logCommit($event)">Log Commit</button>
     </div>
 
-    <div class="view-address-form">
+    <div class="view-address-form bl-form">
         <mat-form-field class="full-width">
             <mat-label>address</mat-label>
             <input matInput placeholder="Ox..." [(ngModel)]="address">
@@ -27,11 +33,11 @@
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View Commits</button>
     </div>
 
-    <div class="commit-list">
+    <div class="commit-list" *ngIf="commitsLoaded()">
+        <h3 id="commit-list-heading">History for {{ displayName }}</h3>
         <div class="commit-item" *ngFor="let commit of commits">
-            <p>{{ commit.address }}</p>
-            <p>{{ commit.commitId }}</p>
-            <p>{{ commit.timestamp }}</p>
+            <p class="commit-attr">commit: {{ commit.commitId }}</p>
+            <p class="commit-attr">timestamp: {{ commit.timestamp }} - {{ formatDate(commit.date) }}</p>
         </div>
     </div>
 

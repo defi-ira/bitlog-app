@@ -5,6 +5,8 @@ export class Commit {
     public author: string;
     public commitId: string;
     public timestamp: string;
+    public date?: Date;
+    public block?: string;
 
     constructor(address_: any, author_: any, commitId_: any) {
         this.commitId = BigNumber.from(commitId_).toHexString();
@@ -14,5 +16,13 @@ export class Commit {
     }
     public setTimestamp(timestamp_: any) {
         this.timestamp = BigNumber.from(timestamp_).toHexString();
+    }
+
+    public setDate(timestamp_: any) {
+        this.date = new Date(timestamp_);
+    }
+
+    public setBlock(block: any) {
+        this.block = block;
     }
 }

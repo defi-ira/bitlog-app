@@ -4,6 +4,7 @@ import { Alchemy, Network } from "alchemy-sdk";
 import { ethers, BigNumber } from 'ethers';
 import { Commit } from '../model/Commit';
 import { environment } from '../../environments/environment';
+import { DatePipe } from '@angular/common'; 
 
 declare const window: any;
 
@@ -30,10 +31,11 @@ export class BitLogAppComponent implements OnInit {
 
     public address: string;
     public commitInput: string;
+    public displayName: string = "";
 
     public commits: Commit[];
 
-    constructor(private contractService: ContractService) {
+    constructor(private contractService: ContractService, public datepipe: DatePipe) {
         this.address = "";
         this.commitInput = "";
         this.commits = [];
@@ -43,8 +45,16 @@ export class BitLogAppComponent implements OnInit {
 
     }
 
+    formatDate(date: Date | undefined){
+        return this.datepipe.transform(date, 'dd-mm-yyyy');
+       }
+
     public walletConnected(): boolean {
         return this.address.length > 0;
+    }
+
+    public commitsLoaded(): boolean {
+        return this.commits.length > 0;
     }
 
     public shortAddress(): string {
@@ -82,9 +92,9 @@ export class BitLogAppComponent implements OnInit {
 
     public async setTimestamps(commits: Commit[]) {
         for (let i = 0; i < commits.length; i++) {
-            console.log(commits[i].commitId);
-            const timestamp = await this.contract['getCommitTime'](commits[i].commitId)
+            const timestamp = await this.contract['getCommitTime'](commits[i].commitId);
             commits[i].setTimestamp(timestamp);
+            commits[i].setDate(Number.parseInt(timestamp.toString()) * 1000);
         }
     }
 
@@ -97,7 +107,12 @@ export class BitLogAppComponent implements OnInit {
     openMetamask(){
         this.contractService.openMetamask().then(resp =>{
             this.address = resp;
+            this.setDisplayName(resp);
     })}
+
+    public setDisplayName(addr: any) {
+        this.displayName = addr;
+    }
 
 }
 

@@ -9,6 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     FormsModule
   ],
-  providers: [ContractService],
+  providers: [ContractService, DatePipe],
   bootstrap: [BitLogAppComponent]
 })
 export class AppModule { }

@@ -45,23 +45,24 @@ a {
 }
 
 .add-commit-form {
-    padding-top: 100px;
-    width: 40%;
+    padding-top: 120px;
+    width: 50%;
     margin: auto auto;
+    margin-bottom: 20px;
 }
 
 .full-width {
-    width: 75%;
+    width: 65%;
 }
 
 .view-address-form {
     padding-top: 20px;
-    width: 40%;
+    width: 50%;
     margin: auto auto;
 }
 
 .small-form-button {
-    width: 20%;
+    width: 30%;
     margin: auto 2%;
     text-align: center;
 }
@@ -79,6 +80,95 @@ a {
     margin-top: 10px;
 }
 
+@font-face {
+    font-family: Audiowide;
+    src: url(../../assets/fonts/Audiowide-Regular.ttf) format("truetype");
+}
+
 * {
     font-family: 'Audiowide', 'arial', sans-serif;
+}
+
+
+.bl-form {
+    padding: 20px;
+    border-color: #3B557E;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+}
+
+.bl-commit-entry {
+    padding: 10px;
+    border-color: #3B557E;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+}
+
+#bitlog-heading {
+    width: 60%;
+    margin: auto auto;
+    text-align: center;
+    font-family: 'Audiowide' !important;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1040px) {
+    .small-form-button {
+        width: 90%;
+        margin: auto 2%;
+        text-align: center;
+    }
+    .full-width {
+        width: 95%;
+    }
+
+    .add-commit-form {
+        width: 60%;
+        margin: auto auto;
+        margin-bottom: 20px;
+    }
+    
+    .view-address-form {
+        padding-top: 20px;
+        width: 60%;
+        margin: auto auto;
+    }
+
+
+}
+
+#smart-contract-link {
+    color: #3B557E;
+}
+
+.commit-list {
+    padding: 10px;
+    margin-top: 10px;
+    border-color: #3B557E;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.commit-item {
+    padding: 5px;
+    border-color: #3B557E;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#commit-list-heading {
+    text-align: center;
+}
+
+.commit-attr {
+    color: black;
+    margin-left: 10px;
+    margin-top: 5px;
 }
