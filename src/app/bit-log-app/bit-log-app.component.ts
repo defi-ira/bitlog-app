@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare const window: any;
+const CalHeatMap = (globalThis as any)['CalHeatMap'];
 
 @Component({
   selector: 'bit-log-app',
@@ -114,7 +115,7 @@ export class BitLogAppComponent implements OnInit {
     public viewAddress(e: any) {
         e.preventDefault();
         this.commits = [];
-        this.getCommits(this.address);
+        this.getCommits(this.address).then(() => { this.formatHeatmap(); });
     }
         
     openMetamask(){
@@ -125,6 +126,19 @@ export class BitLogAppComponent implements OnInit {
 
     public setDisplayName(addr: any) {
         this.displayName = addr;
+    }
+
+    public formatHeatmap() {
+        const cal = new CalHeatMap();
+        cal.init({
+          itemSelector: '#calheatmap',
+          domain: 'month',
+          subDomain: 'day',
+          cellSize: 20,
+          subDomainTextFormat: '%d',
+          range: 6,
+          displayLegend: false,
+        });
     }
 
 }

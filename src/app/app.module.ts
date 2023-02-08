@@ -12,9 +12,11 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
-    BitLogAppComponent
+    BitLogAppComponent, 
   ],
   imports: [
     BrowserModule,
@@ -24,7 +26,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [ContractService, DatePipe],
   bootstrap: [BitLogAppComponent]

@@ -34,6 +34,12 @@
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View Commits</button>
     </div>
 
+    <div class="cal-heatmap" [ngClass]="{'d-none': !commitsLoaded()}">
+        <h3 id="heatmap-heading">{{ displayName }}'s HeatMap</h3>
+        <div #calheatmap id="calheatmap"></div>
+    </div>
+
+
     <div class="commit-list" *ngIf="commitsLoaded()">
         <h3 id="commit-list-heading">History for {{ displayName }}</h3>
         <div class="commit-item" *ngFor="let commit of commits">

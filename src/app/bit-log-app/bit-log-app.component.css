@@ -177,3 +177,28 @@ a {
     margin-left: 30px;
     color: #3B557E;
 }
+
+.cal-heatmap {
+    padding: 10px;
+    margin-top: 10px;
+    border-color: #3B557E;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    margin-top: 15px !important;
+    width: 45%;
+    margin: auto auto;
+    overflow-x: auto;
+    scroll-snap-align: end;
+}
+
+.d-none{ display: none; }
+
+.cal-heatmap-container {
+    width: 80%;
+    margin: auto auto;
+}
+
+#heatmap-heading {
+    text-align: center;
+}
