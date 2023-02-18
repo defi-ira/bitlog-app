@@ -13,10 +13,12 @@ import { DatePipe } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
-    BitLogAppComponent, 
+    BitLogAppComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
+    MatDialogModule,
+    MatExpansionModule
   ],
   providers: [ContractService, DatePipe],
   bootstrap: [BitLogAppComponent]

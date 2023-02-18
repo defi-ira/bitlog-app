@@ -1,13 +1,13 @@
 <div id="bit-log-app-container">
     <mat-toolbar color="primary" class="header">
         <a routerLink="/" routerLinkActive="inactive" ariaCurrentWhenActive="page" id="icon-slot">
-            <img id="bitlog-logo" src="../../assets/bitlog.png" width="50px">
+            <img id="bitlog-logo" src="../../assets/black_bitlog.png" width="100px">
         </a>
       
         <span class="right-spacer"></span>
-        <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">Connect Wallet</button>
-        <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="disconnect()" style="margin-right: 10px; color: white;">Disconnect</button>
-        <button *ngIf="walletConnected()" mat-raised-button color="primary" style="color: white;" (click)="openMetamask()">{{ shortAddress() }}</button>
+        <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: black;" (click)="openMetamask()">Connect Wallet</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="disconnect()" style="margin-right: 10px;">Disconnect</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ shortAddress() }}</button>
     </mat-toolbar>
 
     <div id="bitlog-heading">
@@ -18,16 +18,16 @@
     </div>
 
     <div class="add-commit-form bl-form">
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" color="accent">
             <mat-label>commit id</mat-label>
             <input matInput [(ngModel)]="commitInput" name="commitId" placeholder="Ox...">
         </mat-form-field>
-        <button mat-raised-button color="primary" class="small-form-button" *ngIf="!walletConnected()" disabled>Log Commit</button>
+        <button mat-raised-button color="primary" class="small-form-button" *ngIf="!walletConnected()" style="color: white" disabled>Log Commit</button>
         <button mat-raised-button color="primary" class="small-form-button" *ngIf="walletConnected()" (click)="logCommit($event)">Log Commit</button>
     </div>
 
     <div class="view-address-form bl-form">
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" color="accent">
             <mat-label>address</mat-label>
             <input matInput placeholder="Ox..." [(ngModel)]="address">
         </mat-form-field>

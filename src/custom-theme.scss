@@ -7,25 +7,50 @@
 $blue-palette: (
  50: #e4f4fb,
  100: #bbe3f6,
- 200: #3b557e,
- 300: #3b557e,
- 400: #3b557e,
- 500: #3b557e,
- 600: #3b557e,
- 700: #3b557e,
- 800: #3b557e,
- 900: #3b557e,
+ 200: #FFF,
+ 300: #FFF,
+ 400: #FFF,
+ 500: #FFF,
+ 600: #FFF,
+ 700: #FFF,
+ 800: #FFF,
+ 900: #FFF,
  contrast: (
-   50: #f0f0f0,
-   100: #f0f0f0,
-   200: #f0f0f0,
-   300: #f0f0f0,
-   400: #f0f0f0,
-   500: #f0f0f0,
-   600: #f0f0f0,
-   700: #f0f0f0,
-   800: #f0f0f0,
-   900: #f0f0f0,
+   50: #000,
+   100: #000,
+   200: #000,
+   300: #000,
+   400: #000,
+   500: #000,
+   600: #000,
+   700: #000,
+   800: #000,
+   900: #000,
+ )
+);
+
+$white-palette: (
+ 50: #e4f4fb,
+ 100: #bbe3f6,
+ 200: #FFF,
+ 300: #FFF,
+ 400: #FFF,
+ 500: #FFF,
+ 600: #FFF,
+ 700: #FFF,
+ 800: #FFF,
+ 900: #FFF,
+ contrast: (
+   50: #000,
+   100: #000,
+   200: #000,
+   300: #000,
+   400: #000,
+   500: #000,
+   600: #000,
+   700: #000,
+   800: #000,
+   900: #000,
  )
 );
 
@@ -33,7 +58,7 @@ $blue-palette: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $bitlog-app-primary: mat.define-palette($blue-palette);
-$bitlog-app-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
+$bitlog-app-accent: mat.define-palette($white-palette);
 
 // The warn palette is optional (defaults to red).
 $bitlog-app-warn: mat.define-palette(mat.$red-palette);

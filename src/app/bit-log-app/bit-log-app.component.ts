@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ContractService } from '../services/ContractService';
 import { Alchemy, Network } from "alchemy-sdk";
 import { ethers, BigNumber } from 'ethers';
@@ -7,9 +7,13 @@ import { environment } from '../../environments/environment';
 import { DatePipe } from '@angular/common'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { timestamp } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 declare const window: any;
-const CalHeatMap = (globalThis as any)['CalHeatMap'];
+
+export interface DialogData {
+    address: string;
+  }
 
 @Component({
   selector: 'bit-log-app',
@@ -56,7 +60,7 @@ export class BitLogAppComponent implements OnInit {
     }
 
     formatDate(date: Date | undefined){
-        return this.datepipe.transform(date, 'dd-mm-yyyy');
+        return date?.toLocaleDateString("en-US");
     }
 
     openSnackBar(message: string, action: string) {
@@ -167,10 +171,10 @@ export class BitLogAppComponent implements OnInit {
         if(this.dateMap.get(key) && this.dateMap.get(key)?.length) {
             const length = this.dateMap.get(key)?.length
             if (length && length > 0) {
-                return "blue-check.png";
+                return "white-check.png";
             }
         }
-        return "grey-check.png";
+        return "black-check.png";
     }
 
     public viewAddress(e: any) {
@@ -190,4 +194,3 @@ export class BitLogAppComponent implements OnInit {
     }
 
 }
-
