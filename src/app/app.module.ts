@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   declarations: [
     BitLogAppComponent
@@ -31,7 +33,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule
   ],
   providers: [ContractService, DatePipe],
   bootstrap: [BitLogAppComponent]

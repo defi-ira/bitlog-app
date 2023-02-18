@@ -44,6 +44,36 @@
         <div id="checks-owner">by {{ shortAddress() }}</div>
     </div>
 
+    <div id="checks-config" *ngIf="commitsLoaded()">
+        <h4 style="text-align: center;">customize</h4>
+
+        <div class="check-config">
+            <mat-form-field>
+                <mat-label style="color: white;">primary color</mat-label>
+                <mat-select style="color: white;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
+                    <mat-option *ngFor="let color of colors" [value]="color">
+                        {{ color }}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field> 
+                <img height="30px" class="icon-preview" [src]="primaryImageSource"  />
+        </div>
+
+        <div class="check-config">
+            <mat-form-field>
+                <mat-label style="color: white;">secondary color</mat-label>
+                <mat-select style="color: white;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
+                    <mat-option *ngFor="let color of colors" [value]="color">
+                        {{ color }}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field> 
+                <img height="30px" class="icon-preview" [src]="secondaryImageSource"  />
+        </div>
+
+
+    </div>
+
 
     <div class="commit-list" *ngIf="commitsLoaded()">
         <h3 id="commit-list-heading">History for {{ displayName }}</h3>

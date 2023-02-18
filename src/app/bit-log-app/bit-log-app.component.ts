@@ -6,14 +6,20 @@ import { Commit } from '../model/Commit';
 import { environment } from '../../environments/environment';
 import { DatePipe } from '@angular/common'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { timestamp } from 'rxjs';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 declare const window: any;
 
 export interface DialogData {
     address: string;
-  }
+}
+
+export enum Color {
+    "BLACK" = "black",
+    "WHITE" = "white",
+    "BLUE" = "blue",
+    "GREEN" = "green",
+    "RED" = "red"
+}
 
 @Component({
   selector: 'bit-log-app',
@@ -24,7 +30,6 @@ export class BitLogAppComponent implements OnInit {
 
     private window: any;
     private contractJson = require("../contracts/BitLog.json");
-    private timestamps = require("./timestamps.json");
     private web3: any = require('web3');
 
     private config = {
@@ -43,6 +48,16 @@ export class BitLogAppComponent implements OnInit {
     public hasENS: boolean = false;
     public resolvedName: string  = "";
 
+    public primaryColor: Color = Color.WHITE;
+    public secondaryColor: Color = Color.BLACK;
+    public timestamp: Date = new Date();
+
+    public primaryImageSource: string;
+    public secondaryImageSource: string;
+
+    public color = Color;
+    public colors: string[];
+
     public commits: Commit[];
     public dateMap: Map<string, Commit[]>;
     public dateList: string[]; 
@@ -53,6 +68,9 @@ export class BitLogAppComponent implements OnInit {
         this.commits = [];
         this.dateMap = new Map();
         this.dateList = [];
+        this.colors = Object.keys(this.color);
+        this.primaryImageSource = this.getImageSource(this.primaryColor);
+        this.secondaryImageSource = this.getImageSource(this.secondaryColor);
     }
 
     ngOnInit(): void {
@@ -171,10 +189,10 @@ export class BitLogAppComponent implements OnInit {
         if(this.dateMap.get(key) && this.dateMap.get(key)?.length) {
             const length = this.dateMap.get(key)?.length
             if (length && length > 0) {
-                return "white-check.png";
+                return this.primaryColor.toLowerCase() + "-check.png";
             }
         }
-        return "black-check.png";
+        return this.secondaryColor.toLowerCase() + "-check.png";
     }
 
     public viewAddress(e: any) {
@@ -192,5 +210,16 @@ export class BitLogAppComponent implements OnInit {
     public setDisplayName(addr: any) {
         this.displayName = addr;
     }
+
+    public updateTimestamp() {
+        this.timestamp = new Date();
+        this.primaryImageSource = this.getImageSource(this.primaryColor);
+        this.secondaryImageSource = this.getImageSource(this.secondaryColor);
+    }
+
+    public getImageSource(color: string) {
+        return "/assets/" + color.toLowerCase() + "-check.png" + '?' + this.timestamp.getTime();
+    }
+
 
 }
