@@ -19,6 +19,7 @@ export class Commit {
     }
 
     public setDate(timestamp_: any) {
+        // TODO: check this calculation for accuracy
         this.date = new Date(timestamp_);
     }
 

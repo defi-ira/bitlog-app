@@ -34,9 +34,14 @@
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View Commits</button>
     </div>
 
-    <div class="cal-heatmap" [ngClass]="{'d-none': !commitsLoaded()}">
-        <h3 id="heatmap-heading">{{ displayName }}'s HeatMap</h3>
-        <div #calheatmap id="calheatmap"></div>
+
+    <div class="checks-canvas" *ngIf="commitsLoaded()">
+        <div id="check-items">
+            <div class="check-container" *ngFor="let key of dateList; let i = index" [attr.data-index]="i">
+                <img height="55%" src="/assets/{{ getImageFromKey(key) }}"  />
+            </div>
+        </div>
+        <div id="checks-owner">by {{ shortAddress() }}</div>
     </div>
 
 

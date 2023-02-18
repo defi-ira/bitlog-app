@@ -6,6 +6,7 @@ import { Commit } from '../model/Commit';
 import { environment } from '../../environments/environment';
 import { DatePipe } from '@angular/common'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { timestamp } from 'rxjs';
 
 declare const window: any;
 const CalHeatMap = (globalThis as any)['CalHeatMap'];
@@ -19,6 +20,7 @@ export class BitLogAppComponent implements OnInit {
 
     private window: any;
     private contractJson = require("../contracts/BitLog.json");
+    private timestamps = require("./timestamps.json");
     private web3: any = require('web3');
 
     private config = {
@@ -34,13 +36,19 @@ export class BitLogAppComponent implements OnInit {
     public address: string;
     public commitInput: string;
     public displayName: string = "";
+    public hasENS: boolean = false;
+    public resolvedName: string  = "";
 
     public commits: Commit[];
+    public dateMap: Map<string, Commit[]>;
+    public dateList: string[]; 
 
     constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
         this.address = "";
         this.commitInput = "";
         this.commits = [];
+        this.dateMap = new Map();
+        this.dateList = [];
     }
 
     ngOnInit(): void {
@@ -65,6 +73,10 @@ export class BitLogAppComponent implements OnInit {
 
     public shortAddress(): string {
         return this.address.slice(0,4) + "..." + this.address.slice(38,42)
+    }
+
+    public async getResolvedName(addr: string): Promise<string | null> {
+        return this.provider.lookupAddress(addr);
     }
 
     disconnect() {
@@ -101,21 +113,70 @@ export class BitLogAppComponent implements OnInit {
             const id = await this.contract['getCommitId'](allCommits[i]);
             this.commits.push(new Commit(this.address, this.address, id));
         }
-        this.setTimestamps(this.commits);
+
+        /*
+        this.resolvedName = await this.getResolvedName(address) || "";
+        if (this.resolvedName.length > 0) {
+            this.hasENS = true;
+        }
+        */
     }
 
     public async setTimestamps(commits: Commit[]) {
         for (let i = 0; i < commits.length; i++) {
             const timestamp = await this.contract['getCommitTime'](commits[i].commitId);
             commits[i].setTimestamp(timestamp);
-            commits[i].setDate(Number.parseInt(timestamp.toString()) * 1000);
+            const date: Date = new Date(timestamp * 1000);
+            commits[i].setDate(date);
         }
+        this.createDateSets(commits);
+    }
+
+    public createDateSets(commits: Commit[]) {
+        this.createDateList(commits);
+        this.createDateTable();
+    }
+
+    public createDateList(commits: Commit[]) {
+        this.commits.forEach((commit) => { 
+            if (commit.date && this.dateMap.get(commit.date.toLocaleDateString("en-US"))) {
+                this.dateMap.get(commit.date.toLocaleDateString("en-US"))?.push(commit);
+            } else if (commit.date) {
+                this.dateMap.set(commit.date.toLocaleDateString("en-US"), [commit]);
+            }
+        });
+    }
+
+    public createDateTable() {
+        let dateMarker: Date = new Date();
+        const todayString: string = dateMarker.toLocaleDateString("en-US");
+        for(let i = 0; i < 56; i++) {
+            this.dateList[i] = dateMarker.toLocaleDateString("en-US"), this.dateMap.get(dateMarker.toLocaleDateString("en-US")) || [];
+            if (this.dateMap.get(dateMarker.toLocaleDateString("en-US")) == null) {
+                this.dateMap.set(dateMarker.toLocaleDateString("en-US"), []);
+            }
+            dateMarker.setDate(dateMarker.getDate() - 1);
+        }
+    }
+
+    public getListFromDate(index: number) {
+        return this.dateMap.get(this.dateList[index])?.length;
+    }
+
+    public getImageFromKey(key: string) {
+        if(this.dateMap.get(key) && this.dateMap.get(key)?.length) {
+            const length = this.dateMap.get(key)?.length
+            if (length && length > 0) {
+                return "blue-check.png";
+            }
+        }
+        return "grey-check.png";
     }
 
     public viewAddress(e: any) {
         e.preventDefault();
         this.commits = [];
-        this.getCommits(this.address).then(() => { this.formatHeatmap(); });
+        this.getCommits(this.address).then(() => {this.setTimestamps(this.commits)}).then(() => { });
     }
         
     openMetamask(){
@@ -126,19 +187,6 @@ export class BitLogAppComponent implements OnInit {
 
     public setDisplayName(addr: any) {
         this.displayName = addr;
-    }
-
-    public formatHeatmap() {
-        const cal = new CalHeatMap();
-        cal.init({
-          itemSelector: '#calheatmap',
-          domain: 'month',
-          subDomain: 'day',
-          cellSize: 20,
-          subDomainTextFormat: '%d',
-          range: 6,
-          displayLegend: false,
-        });
     }
 
 }
