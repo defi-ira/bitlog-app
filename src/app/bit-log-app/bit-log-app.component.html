@@ -7,7 +7,7 @@
         <span class="right-spacer"></span>
         <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: black;" (click)="openMetamask()">Connect Wallet</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="disconnect()" style="margin-right: 10px;">Disconnect</button>
-        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ shortAddress() }}</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ displayName }}</button>
     </mat-toolbar>
 
     <div id="bitlog-heading">
@@ -41,7 +41,7 @@
                 <img height="55%" src="/assets/{{ getImageFromKey(key) }}"  />
             </div>
         </div>
-        <div id="checks-owner">by {{ shortAddress() }}</div>
+        <div id="checks-owner"><a (click)="cycleDisplayENS()" style="color:white;">by {{ displayName }}</a></div>
         <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
     </div>
 

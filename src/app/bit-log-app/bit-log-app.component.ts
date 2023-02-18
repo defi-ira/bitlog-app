@@ -62,6 +62,9 @@ export class BitLogAppComponent implements OnInit {
     public dateMap: Map<string, Commit[]>;
     public dateList: string[]; 
 
+    public ensNames: string[] = [];
+    public ensIndex: number = 0;
+
     public today: Date = new Date();
 
     constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
@@ -99,10 +102,6 @@ export class BitLogAppComponent implements OnInit {
         return this.address.slice(0,4) + "..." + this.address.slice(38,42)
     }
 
-    public async getResolvedName(addr: string): Promise<string | null> {
-        return this.provider.lookupAddress(addr);
-    }
-
     disconnect() {
         this.address = '';
     }
@@ -115,6 +114,23 @@ export class BitLogAppComponent implements OnInit {
         e.preventDefault();
         this.writeCommit();
     }
+
+    public async getENSName() {
+        const config = {
+            apiKey: "PJkOEl4iMuFWVpY3QMr4hq8a2qfIS5Ht",
+            network: Network.ETH_MAINNET,
+          };
+          const alchemy = new Alchemy(config);
+          
+          const walletAddress = this.address;
+          const ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
+          const nfts = await alchemy.nft.getNftsForOwner(walletAddress, {
+            contractAddresses: [ensContractAddress],
+          });
+          this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
+          this.setDisplayName(this.address, this.ensNames);
+    }
+    
 
     public async writeCommit() {
         const connect = await this.contract.connect(this.provider);
@@ -200,17 +216,35 @@ export class BitLogAppComponent implements OnInit {
     public viewAddress(e: any) {
         e.preventDefault();
         this.commits = [];
-        this.getCommits(this.address).then(() => {this.setTimestamps(this.commits)}).then(() => { });
+        this.getCommits(this.address).then(() => {this.setTimestamps(this.commits)}).then(() => {
+            this.getENSName();
+        });
     }
         
     openMetamask(){
         this.contractService.openMetamask().then(resp =>{
             this.address = resp;
-            this.setDisplayName(resp);
+            this.setDisplayName(resp, null);
     })}
 
-    public setDisplayName(addr: any) {
-        this.displayName = addr;
+    public setDisplayName(addr: any, ensNames: string[] | null) {
+        if (ensNames != null) {
+            this.ensIndex = 0;
+            this.displayName = ensNames[this.ensIndex];
+        } else {
+            this.displayName = this.shortAddress();
+        }
+    }
+
+    public cycleDisplayENS() {
+        // see if loopover
+        if (this.ensIndex + 1 == this.ensNames.length) {
+            this.ensIndex = 0;
+            this.displayName = this.ensNames[this.ensIndex];
+        } else {
+            this.displayName = this.ensNames[++this.ensIndex];
+        }
+
     }
 
     public updateTimestamp() {
