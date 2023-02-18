@@ -42,6 +42,7 @@
             </div>
         </div>
         <div id="checks-owner">by {{ shortAddress() }}</div>
+        <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
     </div>
 
     <div id="checks-config" *ngIf="commitsLoaded()">

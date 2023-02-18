@@ -62,6 +62,8 @@ export class BitLogAppComponent implements OnInit {
     public dateMap: Map<string, Commit[]>;
     public dateList: string[]; 
 
+    public today: Date = new Date();
+
     constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
         this.address = "";
         this.commitInput = "";
