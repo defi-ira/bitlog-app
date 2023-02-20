@@ -31,14 +31,24 @@ export class BitLogAppComponent implements OnInit {
     private window: any;
     private contractJson = require("../contracts/BitLog.json");
     private web3: any = require('web3');
+    private contract_address = environment.ARB_CONTRACT_ADDR;
+
+    public eth_config = {
+        apiKey: "PJkOEl4iMuFWVpY3QMr4hq8a2qfIS5Ht",
+        network: Network.ETH_MAINNET,
+      };
+    public alchemy = new Alchemy(this.eth_config);
 
     private config = {
-        apiKey: environment.INFURA_ARB_KEY,
+        apiKey: environment.ALCHEMY_ARB_KEY,
         network: Network.ARB_MAINNET,
     };
+    public arbAlchemy = new Alchemy(this.config);
 
+    private AlchemyProvider = new ethers.providers.AlchemyProvider('arbitrum', environment.ALCHEMY_ARB_KEY);
+    public readContract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.AlchemyProvider);
+    
     private provider = new ethers.providers.Web3Provider(window.ethereum, 'arbitrum');
-    private contract_address = environment.ARB_CONTRACT_ADDR;
 
     private contract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.provider.getSigner());
 
@@ -115,20 +125,14 @@ export class BitLogAppComponent implements OnInit {
         this.writeCommit();
     }
 
-    public async getENSName() {
-        const config = {
-            apiKey: "PJkOEl4iMuFWVpY3QMr4hq8a2qfIS5Ht",
-            network: Network.ETH_MAINNET,
-          };
-          const alchemy = new Alchemy(config);
-          
-          const walletAddress = this.address;
-          const ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
-          const nfts = await alchemy.nft.getNftsForOwner(walletAddress, {
+    public async getENSName() {          
+        const walletAddress = this.address;
+        const ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
+        const nfts = await this.alchemy.nft.getNftsForOwner(walletAddress, {
             contractAddresses: [ensContractAddress],
-          });
-          this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
-          this.setDisplayName(this.address, this.ensNames);
+        });
+        this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
+        this.setDisplayName(this.address, this.ensNames);
     }
     
 
@@ -143,8 +147,8 @@ export class BitLogAppComponent implements OnInit {
             return;
         }
 
-        const numCommits = await this.contract['getNumCommits'](this.address);
-        const allCommits = await this.contract['getAllCommits'](this.address, numCommits);
+        const numCommits = await this.readContract['getNumCommits'](this.address);
+        const allCommits = await this.readContract['getAllCommits'](this.address, numCommits);
         if (allCommits.length == 0) {
             this.openSnackBar("No history found for address.", "close");
         }
@@ -164,7 +168,7 @@ export class BitLogAppComponent implements OnInit {
 
     public async setTimestamps(commits: Commit[]) {
         for (let i = 0; i < commits.length; i++) {
-            const timestamp = await this.contract['getCommitTime'](commits[i].commitId);
+            const timestamp = await this.readContract['getCommitTime'](commits[i].commitId);
             commits[i].setTimestamp(timestamp);
             const date: Date = new Date(timestamp * 1000);
             commits[i].setDate(date);
