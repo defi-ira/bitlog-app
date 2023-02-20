@@ -8,7 +8,7 @@
         <button mat-button color="accent" id="add-commit-button" (click)="openAddCommitDialog()">Write History</button>
         <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: black;" (click)="openMetamask()">Connect Wallet</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="disconnect()" style="margin-right: 10px;">Disconnect</button>
-        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ displayName }}</button>
+        <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ userDisplayName }}</button>
     </mat-toolbar>
 
     <div id="bitlog-heading">

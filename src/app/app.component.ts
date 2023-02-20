@@ -125,6 +125,14 @@ export class AppComponent implements OnInit {
         this.setDisplayName(this.connectedWallet, this.ensNames);
     }
 
+    public async setUserENSName() {
+        const nfts = await this.alchemy.nft.getNftsForOwner(this.connectedWallet, {
+            contractAddresses: [this.ensContractAddress],
+        });
+        let userEnsNames = nfts.ownedNfts.map((nft) => { return nft.title; });
+        this.setUserDisplayName(this.connectedWallet, userEnsNames);
+    }
+
     public async resolveENS(ens: string): Promise<string | null> {
         return this.alchemy.core.resolveName(ens);
     }
