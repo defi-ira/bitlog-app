@@ -37,10 +37,11 @@ export class CheckComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         this.createDateSets(this.commits);
+        console.log(changes);
     }
 
     public commitsLoaded() {
-        if (this.commits.length > 0) {
+        if (this.addr.length > 0) {
             return true;
         }
         return false;

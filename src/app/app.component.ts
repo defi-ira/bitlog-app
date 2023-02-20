@@ -38,8 +38,10 @@ export class AppComponent implements OnInit {
     
     public address: string;
     public connectedWallet: string;
+    public userDisplayName: string = "";
 
     public displayName: string = "";
+
     public hasENS: boolean = false;
     public resolvedName: string  = "";
 
@@ -184,8 +186,8 @@ export class AppComponent implements OnInit {
         this.contractService.openMetamask().then(resp =>{
             this.connectedWallet = resp;
             this.address = this.connectedWallet;
-            this.setDisplayName(resp, null);
-        })
+            this.setUserDisplayName(resp, null);
+        });
     }
 
     public setDisplayName(addr: any, ensNames: string[] | null) {
@@ -193,7 +195,16 @@ export class AppComponent implements OnInit {
             this.ensIndex = 0;
             this.displayName = ensNames[this.ensIndex];
         } else {
-            this.displayName = this.shortAddress(this.connectedWallet);
+            this.displayName = this.shortAddress(this.address);
+        }
+    }
+
+    public setUserDisplayName(addr: any, ensNames: string[] | null) {
+        if (ensNames != null) {
+            this.ensIndex = 0;
+            this.userDisplayName = ensNames[this.ensIndex];
+        } else {
+            this.userDisplayName = this.shortAddress(this.connectedWallet);
         }
     }
 
