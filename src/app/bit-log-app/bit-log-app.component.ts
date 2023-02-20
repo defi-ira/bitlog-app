@@ -32,6 +32,7 @@ export class BitLogAppComponent implements OnInit {
     private contractJson = require("../contracts/BitLog.json");
     private web3: any = require('web3');
     private contract_address = environment.ARB_CONTRACT_ADDR;
+    private ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
 
     public eth_config = {
         apiKey: "PJkOEl4iMuFWVpY3QMr4hq8a2qfIS5Ht",
@@ -53,6 +54,7 @@ export class BitLogAppComponent implements OnInit {
     private contract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.provider.getSigner());
 
     public address: string;
+    public connectedWallet: string;
     public commitInput: string;
     public displayName: string = "";
     public hasENS: boolean = false;
@@ -79,6 +81,7 @@ export class BitLogAppComponent implements OnInit {
 
     constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
         this.address = "";
+        this.connectedWallet = "";
         this.commitInput = "";
         this.commits = [];
         this.dateMap = new Map();
@@ -101,15 +104,15 @@ export class BitLogAppComponent implements OnInit {
     }
 
     public walletConnected(): boolean {
-        return this.address.length > 0;
+        return this.connectedWallet.length > 0;
     }
 
     public commitsLoaded(): boolean {
         return this.commits.length > 0;
     }
 
-    public shortAddress(): string {
-        return this.address.slice(0,4) + "..." + this.address.slice(38,42)
+    public shortAddress(addr: string): string {
+        return addr.slice(0,4) + "..." + addr.slice(38,42)
     }
 
     disconnect() {
@@ -126,15 +129,16 @@ export class BitLogAppComponent implements OnInit {
     }
 
     public async getENSName() {          
-        const walletAddress = this.address;
-        const ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
-        const nfts = await this.alchemy.nft.getNftsForOwner(walletAddress, {
-            contractAddresses: [ensContractAddress],
+        const nfts = await this.alchemy.nft.getNftsForOwner(this.connectedWallet, {
+            contractAddresses: [this.ensContractAddress],
         });
         this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
-        this.setDisplayName(this.address, this.ensNames);
+        this.setDisplayName(this.connectedWallet, this.ensNames);
     }
-    
+
+    public async resolveENS(ens: string): Promise<string | null> {
+        return this.alchemy.core.resolveName(ens);
+    }
 
     public async writeCommit() {
         const connect = await this.contract.connect(this.provider);
@@ -142,28 +146,31 @@ export class BitLogAppComponent implements OnInit {
     }
 
     public async getCommits(address: string) {
+
+        let realAddr: string | null;
+
         if (address.length != 42) {
-            this.openSnackBar("Invalid address, expected 42 chars.", "close");
-            return;
+            // try to resolve the ens
+            realAddr = await this.resolveENS(address);
+            if (realAddr == null) {
+                this.openSnackBar("Invalid address, expected 42 chars.", "close");
+                return;
+            }
+        } else {
+            realAddr = address;
         }
 
-        const numCommits = await this.readContract['getNumCommits'](this.address);
-        const allCommits = await this.readContract['getAllCommits'](this.address, numCommits);
+        const numCommits = await this.readContract['getNumCommits'](realAddr);
+        const allCommits = await this.readContract['getAllCommits'](realAddr, numCommits);
         if (allCommits.length == 0) {
             this.openSnackBar("No history found for address.", "close");
         }
 
         for (let i = 0; i < allCommits.length; i++) {
             const id = await this.contract['getCommitId'](allCommits[i]);
-            this.commits.push(new Commit(this.address, this.address, id));
+            this.commits.push(new Commit(realAddr, realAddr, id));
         }
-
-        /*
-        this.resolvedName = await this.getResolvedName(address) || "";
-        if (this.resolvedName.length > 0) {
-            this.hasENS = true;
-        }
-        */
+        this.commits.reverse();
     }
 
     public async setTimestamps(commits: Commit[]) {
@@ -227,7 +234,8 @@ export class BitLogAppComponent implements OnInit {
         
     openMetamask(){
         this.contractService.openMetamask().then(resp =>{
-            this.address = resp;
+            this.connectedWallet = resp;
+            this.address = this.connectedWallet;
             this.setDisplayName(resp, null);
     })}
 
@@ -236,7 +244,7 @@ export class BitLogAppComponent implements OnInit {
             this.ensIndex = 0;
             this.displayName = ensNames[this.ensIndex];
         } else {
-            this.displayName = this.shortAddress();
+            this.displayName = this.shortAddress(this.connectedWallet);
         }
     }
 
