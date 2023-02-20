@@ -6,26 +6,51 @@
     text-align: center;
 }
 
+.checks-canvas-title {
+    background-color: white;
+    color: black;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.checks-title-input {
+    width: 50%;
+    margin: 0 30% 0 5%;
+    text-align: left;
+    display: inline-block;
+}
+
+.checks-mint-button {
+    text-align: center;
+    display: inline-block;
+    box-shadow: 0px 0px 0px 2px black inset;
+    border-radius: 8px;
+}
+
 .checks-canvas {
-    padding: 40px;
     margin-top: 10px;
     border-color: #FFF;
     border-style: solid;
     border-width: 5px;
     border-radius: 10px;
     margin-top: 15px !important;
-    height: 435px;
     overflow-y: hidden;
     overflow-x: auto;
     color: white;
+    min-width: 400px;
+}
+
+#checks-title {
+    margin: 20px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
 }
 
 #checks-config {
-    padding: 30px;
+    padding: 20px;
     border-color: #FFF;
     border-style: solid;
-    border-width: 5px;
-    border-radius: 10px;
     margin-top: 15px !important;
     height: 150px;
     overflow-x: auto;
@@ -39,6 +64,9 @@
     color: black;
 }
 
+#check-items {
+    padding: 40px;
+}
 
 .check-container {
     font-size: 8px;

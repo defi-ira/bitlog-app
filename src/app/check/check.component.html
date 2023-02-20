@@ -1,42 +1,55 @@
 <div class="app-check-container">
 
+
     <div class="checks-canvas" *ngIf="commitsLoaded()">
+        <div class="checks-canvas-title" *ngIf="commitsLoaded()">
+            <mat-form-field class="checks-title-input">
+                <mat-label>title</mat-label>
+                <input matInput [(ngModel)]="title" placeholder="add a title...">
+            </mat-form-field>
+    
+            <div class="checks-mint-button">
+                <button mat-button color="warning">mint</button>
+            </div>
+        </div>
+    
+
+        <div id="checks-title" *ngIf="title.length > 0">{{ title }}</div>
         <div id="check-items">
             <div class="check-container" *ngFor="let key of dateList; let i = index" [attr.data-index]="i">
-                <img height="55%" src="/assets/{{ getImageFromKey(key) }}"  />
+                <img height="50%" src="/assets/{{ getImageFromKey(key) }}"  />
             </div>
         </div>
         <div id="checks-owner"><a style="color:white;" (click)="ensNameClicked()">by {{ addr }}</a></div>
         <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
-    </div>
 
-    <div id="checks-config" *ngIf="commitsLoaded()">
-        <h4 style="text-align: center;">customize</h4>
-
-        <div class="check-config">
-            <mat-form-field>
-                <mat-label style="color: black;">primary color</mat-label>
-                <mat-select style="color: black;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
-                    <mat-option *ngFor="let color of colors" [value]="color">
-                        {{ color }}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field> 
-                <img height="30px" class="icon-preview" [src]="primaryImageSource"  />
+        <div id="checks-config" *ngIf="commitsLoaded()">
+            <h4 style="text-align: center;">customize</h4>
+    
+            <div class="check-config">
+                <mat-form-field>
+                    <mat-label style="color: black;">primary color</mat-label>
+                    <mat-select style="color: black;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
+                        <mat-option *ngFor="let color of colors" [value]="color">
+                            {{ color }}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field> 
+                    <img height="30px" class="icon-preview" [src]="primaryImageSource"  />
+            </div>
+    
+            <div class="check-config" style="margin-top:0;">
+                <mat-form-field>
+                    <mat-label style="color: black;">secondary color</mat-label>
+                    <mat-select style="color: black;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
+                        <mat-option *ngFor="let color of colors" [value]="color">
+                            {{ color }}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field> 
+                    <img height="30px" class="icon-preview" [src]="secondaryImageSource"  />
+            </div>
         </div>
-
-        <div class="check-config" style="margin-top:0;">
-            <mat-form-field>
-                <mat-label style="color: black;">secondary color</mat-label>
-                <mat-select style="color: black;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
-                    <mat-option *ngFor="let color of colors" [value]="color">
-                        {{ color }}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field> 
-                <img height="30px" class="icon-preview" [src]="secondaryImageSource"  />
-        </div>
-
     </div>
 
 </div>

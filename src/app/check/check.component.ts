@@ -12,7 +12,9 @@ export class CheckComponent implements OnChanges {
     @Input() public addr: string = '';
 
     public dateMap: Map<string, Commit[]>;
-    public dateList: string[]; 
+    public dateList: string[];
+
+    public title: string = '';
 
     public colors: string[];
     public primaryColor: Color = Color.WHITE;
