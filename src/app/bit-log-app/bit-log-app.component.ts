@@ -40,17 +40,10 @@ export class BitLogAppComponent implements OnInit {
       };
     public alchemy = new Alchemy(this.eth_config);
 
-    private config = {
-        apiKey: environment.ALCHEMY_ARB_KEY,
-        network: Network.ARB_MAINNET,
-    };
-    public arbAlchemy = new Alchemy(this.config);
-
     private AlchemyProvider = new ethers.providers.AlchemyProvider('arbitrum', environment.ALCHEMY_ARB_KEY);
     public readContract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.AlchemyProvider);
     
     private provider = new ethers.providers.Web3Provider(window.ethereum, 'arbitrum');
-
     private contract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.provider.getSigner());
 
     public address: string;
@@ -128,8 +121,19 @@ export class BitLogAppComponent implements OnInit {
         this.writeCommit();
     }
 
-    public async getENSName() {          
-        const nfts = await this.alchemy.nft.getNftsForOwner(this.connectedWallet, {
+    public async getENSName(addr: string) { 
+        let realAddr: string | null;
+        if (addr.length != 42) {
+            // try to resolve the ens
+            realAddr = await this.resolveENS(addr);
+            if (realAddr == null) {
+                this.openSnackBar("Invalid address, expected 42 chars.", "close");
+                return;
+            }
+        } else {
+            realAddr = addr;
+        }     
+        const nfts = await this.alchemy.nft.getNftsForOwner(realAddr, {
             contractAddresses: [this.ensContractAddress],
         });
         this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
@@ -167,7 +171,7 @@ export class BitLogAppComponent implements OnInit {
         }
 
         for (let i = 0; i < allCommits.length; i++) {
-            const id = await this.contract['getCommitId'](allCommits[i]);
+            const id = await this.readContract['getCommitId'](allCommits[i]);
             this.commits.push(new Commit(realAddr, realAddr, id));
         }
         this.commits.reverse();
@@ -228,7 +232,7 @@ export class BitLogAppComponent implements OnInit {
         e.preventDefault();
         this.commits = [];
         this.getCommits(this.address).then(() => {this.setTimestamps(this.commits)}).then(() => {
-            this.getENSName();
+            this.getENSName(this.address);
         });
     }
         
@@ -237,7 +241,8 @@ export class BitLogAppComponent implements OnInit {
             this.connectedWallet = resp;
             this.address = this.connectedWallet;
             this.setDisplayName(resp, null);
-    })}
+        })
+    }
 
     public setDisplayName(addr: any, ensNames: string[] | null) {
         if (ensNames != null) {
