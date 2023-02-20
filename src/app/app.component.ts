@@ -100,6 +100,8 @@ export class AppComponent implements OnInit {
 
     disconnect() {
         this.address = '';
+        this.userDisplayName = '';
+        this.connectedWallet = '';
     }
 
     commitInputChange(e: any) {
