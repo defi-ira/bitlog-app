@@ -6,6 +6,8 @@ import { Commit } from './model/Commit';
 import { environment } from '../environments/environment';
 import { DatePipe } from '@angular/common'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { AddCommitDialogComponent } from './add-commit-dialog/add-commit-dialog.component';
 
 declare const window: any;
 
@@ -22,7 +24,6 @@ export class AppComponent implements OnInit {
 
     private window: any;
     private contractJson = require("./contracts/BitLog.json");
-    private web3: any = require('web3');
     private contract_address = environment.ARB_CONTRACT_ADDR;
     private ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
 
@@ -35,12 +36,9 @@ export class AppComponent implements OnInit {
     private AlchemyProvider = new ethers.providers.AlchemyProvider('arbitrum', environment.ALCHEMY_ARB_KEY);
     public readContract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.AlchemyProvider);
     
-    private provider = new ethers.providers.Web3Provider(window.ethereum, 'arbitrum');
-    private contract = new ethers.Contract(this.contract_address, JSON.stringify(this.contractJson), this.provider.getSigner());
-
     public address: string;
     public connectedWallet: string;
-    public commitInput: string;
+
     public displayName: string = "";
     public hasENS: boolean = false;
     public resolvedName: string  = "";
@@ -49,11 +47,12 @@ export class AppComponent implements OnInit {
     public ensNames: string[] = [];
     public ensIndex: number = 0;
 
-    constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
-        this.address = "";
-        this.connectedWallet = "";
-        this.commitInput = "";
-        this.commits = [];
+    constructor(private contractService: ContractService, 
+        public dialog: MatDialog,
+        private _snackBar: MatSnackBar) {
+            this.address = "";
+            this.connectedWallet = "";
+            this.commits = [];
     }
 
     ngOnInit(): void {
@@ -67,6 +66,23 @@ export class AppComponent implements OnInit {
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action);
     }
+
+    openAddCommitDialog(): void {
+        if (!this.walletConnected()) {
+            this.openSnackBar("Plese connect to Web3", "close");
+            return;
+        } 
+        const dialogRef = this.dialog.open(AddCommitDialogComponent, {
+          data: {addr: this.address, displayName: this.displayName},
+          width: '500px',
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result == true) {
+                this.openSnackBar("transaction submitted", "close");
+            }
+        });
+      }
 
     public walletConnected(): boolean {
         return this.connectedWallet.length > 0;
@@ -86,11 +102,6 @@ export class AppComponent implements OnInit {
 
     commitInputChange(e: any) {
         console.log(e);
-    }
-
-    public logCommit(e: any) {
-        e.preventDefault();
-        this.writeCommit();
     }
 
     public async getENSName(addr: string) { 
@@ -114,11 +125,6 @@ export class AppComponent implements OnInit {
 
     public async resolveENS(ens: string): Promise<string | null> {
         return this.alchemy.core.resolveName(ens);
-    }
-
-    public async writeCommit() {
-        const connect = await this.contract.connect(this.provider);
-        await this.contract['addCommit'](BigNumber.from("0x" + this.commitInput).toHexString(), BigNumber.from(this.address).toHexString());
     }
 
     public async getCommits(address: string): Promise<Commit[] | null> {

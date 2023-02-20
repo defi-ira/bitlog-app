@@ -6,7 +6,7 @@
                 <img height="55%" src="/assets/{{ getImageFromKey(key) }}"  />
             </div>
         </div>
-        <div id="checks-owner"><a style="color:white;">by {{ addr }}</a></div>
+        <div id="checks-owner"><a style="color:white;" (click)="ensNameClicked()">by {{ addr }}</a></div>
         <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
     </div>
 
@@ -15,8 +15,8 @@
 
         <div class="check-config">
             <mat-form-field>
-                <mat-label style="color: white;">primary color</mat-label>
-                <mat-select style="color: white;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
+                <mat-label style="color: black;">primary color</mat-label>
+                <mat-select style="color: black;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
                     <mat-option *ngFor="let color of colors" [value]="color">
                         {{ color }}
                     </mat-option>
@@ -27,8 +27,8 @@
 
         <div class="check-config" style="margin-top:0;">
             <mat-form-field>
-                <mat-label style="color: white;">secondary color</mat-label>
-                <mat-select style="color: white;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
+                <mat-label style="color: black;">secondary color</mat-label>
+                <mat-select style="color: black;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
                     <mat-option *ngFor="let color of colors" [value]="color">
                         {{ color }}
                     </mat-option>

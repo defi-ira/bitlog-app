@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Commit } from '../model/Commit';
 
 @Component({
@@ -24,6 +24,8 @@ export class CheckComponent implements OnChanges {
 
     public primaryImageSource: string;
     public secondaryImageSource: string;
+
+    @Output() ensClicked = new EventEmitter<boolean>();
     
     constructor() {
         this.dateMap = new Map();
@@ -93,6 +95,10 @@ export class CheckComponent implements OnChanges {
 
     public getImageSource(color: string) {
         return "assets/" + color.toLowerCase() + "-check.png" + '?' + this.timestamp.getTime();
+    }
+
+    public ensNameClicked() {
+        this.ensClicked.emit(true);
     }
 
 }

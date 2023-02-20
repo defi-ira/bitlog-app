@@ -5,6 +5,7 @@
         </a>
       
         <span class="right-spacer"></span>
+        <button mat-button color="accent" id="add-commit-button" (click)="openAddCommitDialog()">Write History</button>
         <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: black;" (click)="openMetamask()">Connect Wallet</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="disconnect()" style="margin-right: 10px;">Disconnect</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ displayName }}</button>
@@ -15,15 +16,7 @@
         <p>Proof-of-Commit-Protocol (PoCP) uses version control commit ids to crystallize effort in crpytographic history </p>
         <a href="https://arbiscan.io/address/0x2d8a1cba6e1537eaa8d2da32cce64f0fe7009952"><span id="smart-contract-link">smart contract</span></a>
         <a href="https://github.com/defi-ira/bitlog-protocol"><span id="gh-link">github</span></a>
-    </div>
 
-    <div class="add-commit-form bl-form">
-        <mat-form-field class="full-width" color="accent">
-            <mat-label>commit id</mat-label>
-            <input matInput [(ngModel)]="commitInput" name="commitId" placeholder="Ox...">
-        </mat-form-field>
-        <button mat-raised-button color="primary" class="small-form-button" *ngIf="!walletConnected()" style="color: white" disabled>Log Commit</button>
-        <button mat-raised-button color="primary" class="small-form-button" *ngIf="walletConnected()" (click)="logCommit($event)">Log Commit</button>
     </div>
 
     <div class="view-address-form bl-form">
@@ -37,14 +30,7 @@
     <app-check
         [commits]="commits"
         [addr]="displayName"
+        (ensClicked)="cycleDisplayENS()"
     ></app-check>
-
-    <div class="commit-list" *ngIf="commitsLoaded()">
-        <h3 id="commit-list-heading">History for {{ displayName }}</h3>
-        <div class="commit-item" *ngFor="let commit of commits">
-            <p class="commit-attr">commit: {{ commit.commitId }}</p>
-            <p class="commit-attr">timestamp: {{ commit.timestamp }} - {{ formatDate(commit.date) }}</p>
-        </div>
-    </div>
 
 </div>

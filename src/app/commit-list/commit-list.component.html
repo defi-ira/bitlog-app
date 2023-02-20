@@ -1,0 +1,7 @@
+<div class="commit-list">
+    <h3 id="commit-list-heading">History for {{ displayName }}</h3>
+    <div class="commit-item" *ngFor="let commit of commits">
+        <p class="commit-attr">commit: {{ commit.commitId }}</p>
+        <p class="commit-attr">timestamp: {{ commit.timestamp }} - {{ formatDate(commit.date) }}</p>
+    </div>
+</div>

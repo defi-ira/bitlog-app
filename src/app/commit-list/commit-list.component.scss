@@ -1,0 +1,42 @@
+.commit-list {
+    padding: 10px;
+    margin-top: 10px;
+    border-color: #FFF;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    color: white;
+}
+
+.commit-item {
+    padding: 5px;
+    border-color: #FFF;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+#commit-list-heading {
+    text-align: center;
+    color: white;
+}
+
+.commit-attr {
+    color: black;
+    margin-left: 10px;
+    margin-top: 5px;
+    color: white;
+}
+
+
+.bl-commit-entry {
+    padding: 10px;
+    border-color: #FFF;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+}

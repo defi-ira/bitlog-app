@@ -18,11 +18,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MatSelectModule } from '@angular/material/select';
 import { CheckComponent } from './check/check.component';
+import { AddCommitDialogComponent } from './add-commit-dialog/add-commit-dialog.component';
+import { CommitListComponent } from './commit-list/commit-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CheckComponent
+    CheckComponent,
+    AddCommitDialogComponent,
+    CommitListComponent
   ],
   imports: [
     BrowserModule,

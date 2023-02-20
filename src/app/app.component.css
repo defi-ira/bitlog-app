@@ -44,13 +44,6 @@ a {
     text-decoration: underline;
 }
 
-.add-commit-form {
-    padding-top: 120px;
-    width: 50%;
-    margin: auto auto;
-    margin-bottom: 20px;
-}
-
 .full-width {
     width: 65%;
 }
@@ -99,13 +92,6 @@ a {
     color: white;
 }
 
-.bl-commit-entry {
-    padding: 10px;
-    border-color: #FFF;
-    border-style: solid;
-    border-width: 10px;
-    border-radius: 10px;
-}
 
 #bitlog-heading {
     width: 60%;
@@ -145,40 +131,6 @@ a {
     color: #FFF;
 }
 
-.commit-list {
-    padding: 10px;
-    margin-top: 10px;
-    border-color: #FFF;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 10px;
-    max-height: 400px;
-    overflow-y: scroll;
-    color: white;
-}
-
-.commit-item {
-    padding: 5px;
-    border-color: #FFF;
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    color: white;
-}
-
-#commit-list-heading {
-    text-align: center;
-    color: white;
-}
-
-.commit-attr {
-    color: black;
-    margin-left: 10px;
-    margin-top: 5px;
-    color: white;
-}
-
 #gh-link {
     margin-left: 30px;
     color: #FFF;
@@ -215,5 +167,8 @@ a {
     text-decoration: underline;
 }
 
-
-
+#add-commit-button {
+    margin-right: 10px;
+    box-shadow:0px 0px 0px 3px white inset;
+    color: white;
+}
