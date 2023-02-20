@@ -13,14 +13,6 @@ export interface DialogData {
     address: string;
 }
 
-export enum Color {
-    "BLACK" = "black",
-    "WHITE" = "white",
-    "BLUE" = "blue",
-    "GREEN" = "green",
-    "RED" = "red"
-}
-
 @Component({
   selector: 'app',
   templateUrl: './app.component.html',
@@ -53,35 +45,15 @@ export class AppComponent implements OnInit {
     public hasENS: boolean = false;
     public resolvedName: string  = "";
 
-    public primaryColor: Color = Color.WHITE;
-    public secondaryColor: Color = Color.BLACK;
-    public timestamp: Date = new Date();
-
-    public primaryImageSource: string;
-    public secondaryImageSource: string;
-
-    public color = Color;
-    public colors: string[];
-
     public commits: Commit[];
-    public dateMap: Map<string, Commit[]>;
-    public dateList: string[]; 
-
     public ensNames: string[] = [];
     public ensIndex: number = 0;
-
-    public today: Date = new Date();
 
     constructor(private contractService: ContractService, public datepipe: DatePipe, private _snackBar: MatSnackBar) {
         this.address = "";
         this.connectedWallet = "";
         this.commitInput = "";
         this.commits = [];
-        this.dateMap = new Map();
-        this.dateList = [];
-        this.colors = Object.keys(this.color);
-        this.primaryImageSource = this.getImageSource(this.primaryColor);
-        this.secondaryImageSource = this.getImageSource(this.secondaryColor);
     }
 
     ngOnInit(): void {
@@ -149,8 +121,9 @@ export class AppComponent implements OnInit {
         await this.contract['addCommit'](BigNumber.from("0x" + this.commitInput).toHexString(), BigNumber.from(this.address).toHexString());
     }
 
-    public async getCommits(address: string) {
+    public async getCommits(address: string): Promise<Commit[] | null> {
 
+        let commitList: Commit[] = [];
         let realAddr: string | null;
 
         if (address.length != 42) {
@@ -158,7 +131,7 @@ export class AppComponent implements OnInit {
             realAddr = await this.resolveENS(address);
             if (realAddr == null) {
                 this.openSnackBar("Invalid address, expected 42 chars.", "close");
-                return;
+                return null;
             }
         } else {
             realAddr = address;
@@ -172,67 +145,32 @@ export class AppComponent implements OnInit {
 
         for (let i = 0; i < allCommits.length; i++) {
             const id = await this.readContract['getCommitId'](allCommits[i]);
-            this.commits.push(new Commit(realAddr, realAddr, id));
+            commitList.push(new Commit(realAddr, realAddr, id));
         }
-        this.commits.reverse();
+        commitList.reverse();
+        return commitList;
     }
 
-    public async setTimestamps(commits: Commit[]) {
+    public async setTimestamps(commits: Commit[] | null): Promise<Commit[] | null> {
+        if (commits == null) { return null; }
         for (let i = 0; i < commits.length; i++) {
             const timestamp = await this.readContract['getCommitTime'](commits[i].commitId);
             commits[i].setTimestamp(timestamp);
             const date: Date = new Date(timestamp * 1000);
             commits[i].setDate(date);
         }
-        this.createDateSets(commits);
-    }
-
-    public createDateSets(commits: Commit[]) {
-        this.createDateList(commits);
-        this.createDateTable();
-    }
-
-    public createDateList(commits: Commit[]) {
-        this.commits.forEach((commit) => { 
-            if (commit.date && this.dateMap.get(commit.date.toLocaleDateString("en-US"))) {
-                this.dateMap.get(commit.date.toLocaleDateString("en-US"))?.push(commit);
-            } else if (commit.date) {
-                this.dateMap.set(commit.date.toLocaleDateString("en-US"), [commit]);
-            }
-        });
-    }
-
-    public createDateTable() {
-        let dateMarker: Date = new Date();
-        const todayString: string = dateMarker.toLocaleDateString("en-US");
-        for(let i = 0; i < 56; i++) {
-            this.dateList[i] = dateMarker.toLocaleDateString("en-US"), this.dateMap.get(dateMarker.toLocaleDateString("en-US")) || [];
-            if (this.dateMap.get(dateMarker.toLocaleDateString("en-US")) == null) {
-                this.dateMap.set(dateMarker.toLocaleDateString("en-US"), []);
-            }
-            dateMarker.setDate(dateMarker.getDate() - 1);
-        }
-    }
-
-    public getListFromDate(index: number) {
-        return this.dateMap.get(this.dateList[index])?.length;
-    }
-
-    public getImageFromKey(key: string) {
-        if(this.dateMap.get(key) && this.dateMap.get(key)?.length) {
-            const length = this.dateMap.get(key)?.length
-            if (length && length > 0) {
-                return this.primaryColor.toLowerCase() + "-check.png";
-            }
-        }
-        return this.secondaryColor.toLowerCase() + "-check.png";
+        return commits;
     }
 
     public viewAddress(e: any) {
         e.preventDefault();
         this.commits = [];
-        this.getCommits(this.address).then(() => {this.setTimestamps(this.commits)}).then(() => {
-            this.getENSName(this.address);
+        this.getCommits(this.address).then((commits: Commit[] | null) => {
+            this.setTimestamps(commits).then((dated: Commit[] | null) => {
+                if (dated == null) { return; }
+                this.commits = dated;
+                this.getENSName(this.address);
+            })
         });
     }
         
@@ -263,16 +201,5 @@ export class AppComponent implements OnInit {
         }
 
     }
-
-    public updateTimestamp() {
-        this.timestamp = new Date();
-        this.primaryImageSource = this.getImageSource(this.primaryColor);
-        this.secondaryImageSource = this.getImageSource(this.secondaryColor);
-    }
-
-    public getImageSource(color: string) {
-        return "/assets/" + color.toLowerCase() + "-check.png" + '?' + this.timestamp.getTime();
-    }
-
 
 }

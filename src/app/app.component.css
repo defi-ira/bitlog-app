@@ -184,47 +184,8 @@ a {
     color: #FFF;
 }
 
-.checks-canvas {
-    padding: 50px;
-    margin-top: 10px;
-    border-color: #FFF;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 10px;
-    margin-top: 15px !important;
-    width: 40%;
-    min-width: 400px;
-    height: 435px;
-    margin: auto auto;
-    overflow-y: hidden;
-    overflow-x: auto;
-    scroll-snap-align: end;
-    color: white;
-}
 
 .d-none{ display: none; }
-
-.check-container {
-    font-size: 8px;
-    display: inline-block;
-    width: 14%;
-    height: 50px;
-    text-align: center;
-}
-
-.right-spacer {
-    margin-right: 20%;
-}
-
-#checks-owner {
-    text-align: center;
-}
-
-#checks-date {
-    text-align: center;
-    font-size: smaller;
-    margin-top: 10px;
-}
 
 
 ::ng-deep .mat-focused .mat-form-field-label {
@@ -232,19 +193,19 @@ a {
     color: white !important;
    }
   
-   ::ng-deep.mat-form-field-underline {
+::ng-deep.mat-form-field-underline {
     /*change color of underline*/
     background-color: white !important;
-  } 
-  
-  ::ng-deep.mat-form-field-ripple {
-   /*change color of underline when focused*/
-   background-color: white !important;
-  }
+} 
 
-  ::ng-deep.mat-select-placeholder {
+::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: white !important;
+}
+
+::ng-deep.mat-select-placeholder {
     color: white !important;
-  }
+}
 
 #smart-contract-link {
     text-decoration: underline;
@@ -254,31 +215,5 @@ a {
     text-decoration: underline;
 }
 
-#checks-config {
-    padding: 20px;
-    margin-top: 10px;
-    border-color: #FFF;
-    border-style: solid;
-    border-width: 5px;
-    border-radius: 10px;
-    margin-top: 15px !important;
-    width: 50%;
-    min-width: 400px;
-    height: 150px;
-    margin: auto auto;
-    overflow-x: auto;
-    color: white;
-    text-align: center;
-}
 
-::ng-deep .mat-select-value{    
-    color: white!important;  
-}
 
-.icon-preview {
-    margin-left: 15px;
-}
-
-.check-config {
-    width: 100%;
-}

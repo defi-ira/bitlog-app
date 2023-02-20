@@ -17,10 +17,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MatSelectModule } from '@angular/material/select';
+import { CheckComponent } from './check/check.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CheckComponent
   ],
   imports: [
     BrowserModule,
