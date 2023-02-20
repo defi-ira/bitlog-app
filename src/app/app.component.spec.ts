@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BitLogAppComponent } from './bit-log-app.component';
+import { AppComponent } from './app.component';
 
 describe('BitLogAppComponent', () => {
-  let component: BitLogAppComponent;
-  let fixture: ComponentFixture<BitLogAppComponent>;
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BitLogAppComponent ]
+      declarations: [ AppComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BitLogAppComponent);
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

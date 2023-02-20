@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { BitLogAppComponent } from './bit-log-app/bit-log-app.component';
+import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { ContractService } from './services/ContractService';
@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
-    BitLogAppComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +37,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule
   ],
   providers: [ContractService, DatePipe],
-  bootstrap: [BitLogAppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

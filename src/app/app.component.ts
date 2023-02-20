@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ContractService } from '../services/ContractService';
+import { ContractService } from './services/ContractService';
 import { Alchemy, Network } from "alchemy-sdk";
 import { ethers, BigNumber } from 'ethers';
-import { Commit } from '../model/Commit';
-import { environment } from '../../environments/environment';
+import { Commit } from './model/Commit';
+import { environment } from '../environments/environment';
 import { DatePipe } from '@angular/common'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -22,14 +22,14 @@ export enum Color {
 }
 
 @Component({
-  selector: 'bit-log-app',
-  templateUrl: './bit-log-app.component.html',
-  styleUrls: ['./bit-log-app.component.css']
+  selector: 'app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class BitLogAppComponent implements OnInit {
+export class AppComponent implements OnInit {
 
     private window: any;
-    private contractJson = require("../contracts/BitLog.json");
+    private contractJson = require("./contracts/BitLog.json");
     private web3: any = require('web3');
     private contract_address = environment.ARB_CONTRACT_ADDR;
     private ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
