@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
             return;
         } 
         const dialogRef = this.dialog.open(AddCommitDialogComponent, {
-          data: {addr: this.address, displayName: this.displayName},
+          data: {addr: this.address, displayName: this.userDisplayName},
           width: '500px',
         });
     
