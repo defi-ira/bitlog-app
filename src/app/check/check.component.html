@@ -21,7 +21,10 @@
                 <img height="60%" src="/assets/{{ getImageFromKey(key) }}"  />
             </div>
         </div>
-        <div id="checks-owner"><a style="color:white;" (click)="ensNameClicked()">by {{ addr }}</a></div>
+        <div id="checks-owner">
+            <a style="color:white;" (click)="ensNameClicked()">by {{ addr }}</a>
+            <img *ngIf="verified" height="14px" class="verified-check" [src]="primaryImageSource"  />
+        </div>
         <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
 
         <div id="checks-config" *ngIf="commitsLoaded()">

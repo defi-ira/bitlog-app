@@ -10,6 +10,7 @@ export class CheckComponent implements OnChanges {
 
     @Input() public commits: Commit[] = [];
     @Input() public addr: string = '';
+    @Input() public verified: boolean = false;
 
     public dateMap: Map<string, Commit[]>;
     public dateList: string[];

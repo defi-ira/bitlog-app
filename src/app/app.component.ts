@@ -49,6 +49,8 @@ export class AppComponent implements OnInit {
     public ensNames: string[] = [];
     public ensIndex: number = 0;
 
+    public verified: boolean = false;
+
     constructor(private contractService: ContractService, 
         public dialog: MatDialog,
         private _snackBar: MatSnackBar) {
@@ -114,12 +116,14 @@ export class AppComponent implements OnInit {
             // try to resolve the ens
             realAddr = await this.resolveENS(addr);
             if (realAddr == null) {
-                this.openSnackBar("Invalid address, expected 42 chars.", "close");
+                this.openSnackBar("address not found.", "close");
                 return;
             }
         } else {
             realAddr = addr;
-        }     
+        }
+        this.verified = this.connectedWallet == realAddr;
+        console.log("verified: " + this.verified);
         const nfts = await this.alchemy.nft.getNftsForOwner(realAddr, {
             contractAddresses: [this.ensContractAddress],
         });
@@ -227,6 +231,10 @@ export class AppComponent implements OnInit {
             this.displayName = this.ensNames[++this.ensIndex];
         }
 
+    }
+
+    public isVerified() {
+        
     }
 
 }
