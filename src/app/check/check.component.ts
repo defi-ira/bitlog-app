@@ -13,8 +13,10 @@ export class CheckComponent implements OnChanges {
 
     public dateMap: Map<string, Commit[]>;
     public dateList: string[];
+    public truncatedDateList: string[];
 
     public title: string = '';
+    public rowCount: number = 8;
 
     public colors: string[];
     public primaryColor: Color = Color.WHITE;
@@ -32,6 +34,7 @@ export class CheckComponent implements OnChanges {
     constructor() {
         this.dateMap = new Map();
         this.dateList = [];
+        this.truncatedDateList = [];
         this.colors = Object.keys(this.color);
         this.primaryImageSource = this.getImageSource(this.primaryColor);
         this.secondaryImageSource = this.getImageSource(this.secondaryColor);
@@ -52,6 +55,7 @@ export class CheckComponent implements OnChanges {
     public createDateSets(commits: Commit[]) {
         this.createDateList(commits);
         this.createDateTable();
+        this.truncatedDateList = this.dateList.slice(0, (7 * this.rowCount));
     }
 
     public createDateList(commits: Commit[]) {
@@ -102,6 +106,10 @@ export class CheckComponent implements OnChanges {
 
     public ensNameClicked() {
         this.ensClicked.emit(true);
+    }
+
+    public sliderValueChanged() {
+        this.truncatedDateList = this.dateList.slice(0, (7 * this.rowCount));
     }
 
 }

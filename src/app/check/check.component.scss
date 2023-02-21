@@ -52,7 +52,7 @@
     border-color: #FFF;
     border-style: solid;
     margin-top: 15px !important;
-    height: 150px;
+    height: 200px;
     overflow-x: auto;
     color: black;
     background-color: white;
@@ -65,15 +65,16 @@
 }
 
 #check-items {
-    padding: 40px;
+    padding: 20px 70px;
 }
 
 .check-container {
     font-size: 8px;
     display: inline-block;
     width: 14%;
-    height: 50px;
+    height: 40px;
     text-align: center;
+
 }
 
 .right-spacer {
@@ -103,4 +104,17 @@
 
 .icon-preview {
     margin-left: 15px;
+}
+
+.mat-accent .mat-slider-track-fill {
+    background-color: black !important;
+}
+
+.mat-slider-thumb-label {
+    background-color: black !important;
+
+}
+
+.mat-slider-thumb {
+    background-color: black !important;
 }

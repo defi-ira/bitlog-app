@@ -21,6 +21,8 @@ import { CheckComponent } from './check/check.component';
 import { AddCommitDialogComponent } from './add-commit-dialog/add-commit-dialog.component';
 import { CommitListComponent } from './commit-list/commit-list.component';
 
+import { MatSliderModule } from '@angular/material/slider';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,9 +42,11 @@ import { CommitListComponent } from './commit-list/commit-list.component';
     BrowserAnimationsModule,
     MatDialogModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSliderModule
   ],
   providers: [ContractService, DatePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [ MatFormFieldModule, MatInputModule ]
 })
 export class AppModule { }

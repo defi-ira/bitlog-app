@@ -54,6 +54,31 @@ $white-palette: (
  )
 );
 
+$black-palette: (
+ 50: #000,
+ 100: #000,
+ 200: #000,
+ 300: #000,
+ 400: #000,
+ 500: #000,
+ 600: #000,
+ 700: #000,
+ 800: #000,
+ 900: #000,
+ contrast: (
+   50: #000,
+   100: #000,
+   200: #000,
+   300: #000,
+   400: #000,
+   500: #000,
+   600: #000,
+   700: #000,
+   800: #000,
+   900: #000,
+ )
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -61,7 +86,7 @@ $bitlog-app-primary: mat.define-palette($blue-palette);
 $bitlog-app-accent: mat.define-palette($white-palette);
 
 // The warn palette is optional (defaults to red).
-$bitlog-app-warn: mat.define-palette(mat.$red-palette);
+$bitlog-app-warn: mat.define-palette($black-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
