@@ -22,6 +22,7 @@ import { AddCommitDialogComponent } from './add-commit-dialog/add-commit-dialog.
 import { CommitListComponent } from './commit-list/commit-list.component';
 
 import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatSliderModule } from '@angular/material/slider';
     MatDialogModule,
     MatExpansionModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressSpinnerModule
   ],
   providers: [ContractService, DatePipe],
   bootstrap: [AppComponent],

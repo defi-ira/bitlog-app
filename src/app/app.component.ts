@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
     public ensIndex: number = 0;
 
     public verified: boolean = false;
+    public isLoading: boolean = false;
 
     constructor(private contractService: ContractService, 
         public dialog: MatDialog,
@@ -187,9 +188,11 @@ export class AppComponent implements OnInit {
     public viewAddress(e: any) {
         e.preventDefault();
         this.commits = [];
+        this.isLoading = true;
         this.getCommits(this.address).then((commits: Commit[] | null) => {
             this.setTimestamps(commits).then((dated: Commit[] | null) => {
                 if (dated == null) { return; }
+                this.isLoading = false;
                 this.commits = dated;
                 this.getENSName(this.address);
             })

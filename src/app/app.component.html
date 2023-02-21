@@ -12,7 +12,7 @@
     </mat-toolbar>
 
     <div id="bitlog-heading">
-        <h1>checks.dev</h1>
+        <h1 style="margin-top: 20px;">checks.dev</h1>
         <p>Proof of Dev Protocol (PoDP) uses version control ids to crystallize effort in crpytographic history. Visualize the value of work.</p>
         <a href="https://arbiscan.io/address/0x2d8a1cba6e1537eaa8d2da32cce64f0fe7009952"><span id="smart-contract-link">smart contract</span></a>
         <a href="https://github.com/defi-ira/bitlog-protocol"><span id="gh-link">github</span></a>
@@ -27,11 +27,15 @@
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View History</button>
     </div>
 
+
+    <mat-spinner *ngIf="isLoading" color="accent" class="loading-spinner"></mat-spinner>
+
     <app-check
         [commits]="commits"
         [addr]="displayName"
         (ensClicked)="cycleDisplayENS()"
         [verified]="verified"
+        *ngIf="!isLoading"
     ></app-check>
 
 </div>

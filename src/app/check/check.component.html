@@ -17,7 +17,7 @@
         <div id="checks-title" *ngIf="title.length > 0">{{ title }}</div>
         <div id="check-items">
             <div class="check-container" *ngFor="let key of truncatedDateList; let i = index">
-                <p style="font-size: 6px; margin: 1px;" *ngIf="i % 2 == 0">{{ key }}</p>
+                <p style="font-size: 6px; margin: 1px;" *ngIf="i % dateGap == 0 && dateGap != 0">{{ key }}</p>
                 <img height="60%" src="/assets/{{ getImageFromKey(key) }}"  />
             </div>
         </div>
@@ -54,10 +54,18 @@
                     <img height="30px" class="icon-preview" [src]="secondaryImageSource"  />
             </div>
 
-            <div class="check-config" style="margin-top:0;">
+            <div class="slider-config" style="margin-top:0; display: inline-block;">
                 <h4 style="margin: 0;">rows: {{ rowCount }}</h4>
                     <mat-slider min="2" max="8" step="1" [(ngModel)]="rowCount" (valueChange)="sliderValueChanged()" color="warn">
                         <mat-label style="color: black;">rows</mat-label>
+                        <input matSliderThumb>
+                    </mat-slider>
+            </div>
+
+            <div class="slider-config" style="margin-top:0; display: inline-block;">
+                <h4 style="margin: 0;">dates: {{ dateGap }}</h4>
+                    <mat-slider min="0" max="7" step="1" [(ngModel)]="dateGap" color="warn">
+                        <mat-label style="color: black;">dates</mat-label>
                         <input matSliderThumb>
                     </mat-slider>
             </div>

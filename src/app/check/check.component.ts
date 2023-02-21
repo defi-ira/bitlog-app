@@ -18,6 +18,7 @@ export class CheckComponent implements OnChanges {
 
     public title: string = '';
     public rowCount: number = 8;
+    public dateGap: number = 2;
 
     public colors: string[];
     public primaryColor: Color = Color.WHITE;
