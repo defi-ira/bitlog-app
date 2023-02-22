@@ -18,7 +18,7 @@
                 <div id="check-sleeve">
                     <div class="check-container" *ngFor="let key of truncatedDateList; let i = index">
                         <p style="font-size: 6px; margin: 1px;" *ngIf="i % dateGap == 0 && dateGap != 0">{{ key }}</p>
-                        <img height="60%" src="/assets/{{ getImageFromKey(key) }}"  />
+                        <img height="40%" src="/assets/{{ getImageFromKey(key) }}"  />
                     </div>
                 </div>
             </div>
