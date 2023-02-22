@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     private ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
 
     public eth_config = {
-        apiKey: "PJkOEl4iMuFWVpY3QMr4hq8a2qfIS5Ht",
+        apiKey: environment.ALCHEMY_ETH_KEY,
         network: Network.ETH_MAINNET,
       };
     public alchemy = new Alchemy(this.eth_config);
@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
     public commits: Commit[];
     public ensNames: string[] = [];
     public ensIndex: number = 0;
+    public viewingAddress: string = "";
 
     public verified: boolean = false;
     public isLoading: boolean = false;
@@ -132,6 +133,7 @@ export class AppComponent implements OnInit {
             contractAddresses: [this.ensContractAddress],
         });
         this.ensNames = nfts.ownedNfts.map((nft) => { return nft.title; });
+        this.viewingAddress = realAddr;
         this.setDisplayName(this.connectedWallet, this.ensNames);
     }
 
@@ -199,9 +201,11 @@ export class AppComponent implements OnInit {
                 this.commits = dated;
                 console.log(dated);
                 this.getENSName(this.address).then(() => {
+                    let addrList = this.ensNames;
+                    addrList.push(this.shortAddress(this.viewingAddress));
                     this.dialog.open(CheckComponent, {
                         panelClass: 'no-padding',
-                        data: {commits: dated, addr: this.displayName, verified: this.verified },
+                        data: {commits: dated, addrList: addrList, verified: this.verified },
                         width: '600px',
                         height: '770px',
                     });
@@ -235,17 +239,6 @@ export class AppComponent implements OnInit {
         } else {
             this.userDisplayName = this.shortAddress(this.connectedWallet);
         }
-    }
-
-    public cycleDisplayENS() {
-        // see if loopover
-        if (this.ensIndex + 1 == this.ensNames.length) {
-            this.ensIndex = 0;
-            this.displayName = this.ensNames[this.ensIndex];
-        } else {
-            this.displayName = this.ensNames[++this.ensIndex];
-        }
-
     }
 
     public isVerified() {

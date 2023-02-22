@@ -5,7 +5,7 @@ import { Commit } from '../model/Commit';
 
 export interface DialogData {
     commits: Commit[];
-    addr: string;
+    addrList: string[];
     verified: boolean;
 }
 
@@ -18,6 +18,8 @@ export interface DialogData {
 export class CheckComponent implements OnInit {
 
     public commits: Commit[] = [];
+    public addrList: string[] = [];
+    public addrIndex: number = 0;
     public addr: string = '';
     public verified: boolean = false;
 
@@ -50,8 +52,9 @@ export class CheckComponent implements OnInit {
         private _snackBar: MatSnackBar
     ) {
         this.commits = data.commits;
-        this.addr = data.addr;
+        this.addrList = data.addrList;
         this.verified = data.verified;
+        this.addr = this.addrList[0];
 
         this.dateMap = new Map();
         this.dateList = [];
@@ -60,7 +63,6 @@ export class CheckComponent implements OnInit {
         this.primaryImageSource = this.getImageSource(this.primaryColor);
         this.secondaryImageSource = this.getImageSource(this.secondaryColor);
         this.createDateSets(data.commits);
-
     }
 
     ngOnInit(): void {
@@ -143,6 +145,14 @@ export class CheckComponent implements OnInit {
 
     public mint() {
         this.dialogRef.close();
+    }
+
+    public cycleDisplayName() {
+        if(this.addrIndex == (this.addrList.length - 1)) {
+            this.addrIndex = 0;
+        }
+        this.addr = this.addrList[++this.addrIndex];
+
     }
 
 }

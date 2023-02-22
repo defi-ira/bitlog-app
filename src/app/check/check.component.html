@@ -24,7 +24,7 @@
             </div>
         </div>
         <div id="checks-owner">
-            <a style="color:white;" (click)="ensNameClicked()">by {{ addr }}</a>
+            <a style="color:white;" (click)="cycleDisplayName()" style="cursor: pointer;">by {{ addr }}</a>
             <img *ngIf="verified" height="14px" class="verified-check" [src]="primaryImageSource"  />
         </div>
         <div id="checks-date">{{ today.toLocaleDateString('en-US') }}</div>
