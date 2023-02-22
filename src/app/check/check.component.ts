@@ -1,28 +1,39 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Commit } from '../model/Commit';
+
+export interface DialogData {
+    commits: Commit[];
+    addr: string;
+    verified: boolean;
+}
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.scss']
+  styleUrls: ['./check.component.scss'],
+  encapsulation: ViewEncapsulation.None 
 })
-export class CheckComponent implements OnChanges {
+export class CheckComponent implements OnInit {
 
-    @Input() public commits: Commit[] = [];
-    @Input() public addr: string = '';
-    @Input() public verified: boolean = false;
+    public commits: Commit[] = [];
+    public addr: string = '';
+    public verified: boolean = false;
+
+    public randomColors: Color[] = [Color.BLUE, Color.GREEN, Color.RED, Color.NAVY, Color.ORANGE, Color.PURPLE, Color.YELLOW];
 
     public dateMap: Map<string, Commit[]>;
     public dateList: string[];
     public truncatedDateList: string[];
 
     public title: string = '';
-    public rowCount: number = 8;
-    public dateGap: number = 2;
+    public rowCount: number = 6;
+    public dateGap: number = 1;
 
     public colors: string[];
-    public primaryColor: Color = Color.WHITE;
-    public secondaryColor: Color = Color.BLACK;
+    public primaryColor: Color = Color.BLUE;
+    public secondaryColor: Color = Color.WHITE;
     public color = Color;
 
     public timestamp: Date = new Date();
@@ -31,27 +42,29 @@ export class CheckComponent implements OnChanges {
     public primaryImageSource: string;
     public secondaryImageSource: string;
 
-    @Output() ensClicked = new EventEmitter<boolean>();
+    public ensClicked = new EventEmitter<boolean>();
     
-    constructor() {
+    constructor(
+        public dialogRef: MatDialogRef<CheckComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: DialogData,
+        private _snackBar: MatSnackBar
+    ) {
+        this.commits = data.commits;
+        this.addr = data.addr;
+        this.verified = data.verified;
+
         this.dateMap = new Map();
         this.dateList = [];
         this.truncatedDateList = [];
         this.colors = Object.keys(this.color);
         this.primaryImageSource = this.getImageSource(this.primaryColor);
         this.secondaryImageSource = this.getImageSource(this.secondaryColor);
+        this.createDateSets(data.commits);
+
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.createDateSets(this.commits);
-        console.log(changes);
-    }
-
-    public commitsLoaded() {
-        if (this.addr.length > 0) {
-            return true;
-        }
-        return false;
+    ngOnInit(): void {
+        
     }
 
     public createDateSets(commits: Commit[]) {
@@ -114,6 +127,24 @@ export class CheckComponent implements OnChanges {
         this.truncatedDateList = this.dateList.slice(0, (7 * this.rowCount));
     }
 
+    public getRandomColor(): Color {
+        return this.randomColors[Math.floor(Math.random() * (this.randomColors.length))];
+    }
+
+    public randomizePrimary() {
+        this.primaryColor = this.getRandomColor();
+        this.updateTimestamp();
+    }
+
+    public randomizeSecondary() {
+        this.secondaryColor = this.getRandomColor();
+        this.updateTimestamp();
+    }
+
+    public mint() {
+        this.dialogRef.close();
+    }
+
 }
 
 export enum Color {
@@ -121,5 +152,9 @@ export enum Color {
     "WHITE" = "white",
     "BLUE" = "blue",
     "GREEN" = "green",
-    "RED" = "red"
+    "RED" = "red",
+    "NAVY" = "navy",
+    "ORANGE" = "orange",
+    "PURPLE" = "purple",
+    "YELLOW" = "yellow"
 }

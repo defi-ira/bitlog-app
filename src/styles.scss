@@ -3,3 +3,8 @@
     font-family: Audiowide;
     src: url(./assets/fonts/Audiowide-Regular.ttf) format("truetype");
 }
+
+.no-padding .mat-dialog-container {
+    padding: 0 !important;
+    overflow-y: scroll;
+}

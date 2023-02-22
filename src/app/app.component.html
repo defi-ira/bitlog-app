@@ -28,15 +28,6 @@
         <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View History</button>
     </div>
 
-
-    <mat-spinner *ngIf="isLoading" color="accent" class="loading-spinner"></mat-spinner>
-
-    <app-check
-        [commits]="commits"
-        [addr]="displayName"
-        (ensClicked)="cycleDisplayENS()"
-        [verified]="verified"
-        *ngIf="!isLoading"
-    ></app-check>
+    <mat-spinner *ngIf="isLoading" color="accent" class="loading-spinner" style="width: 15%;"></mat-spinner>
 
 </div>

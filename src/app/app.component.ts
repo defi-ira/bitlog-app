@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCommitDialogComponent } from './add-commit-dialog/add-commit-dialog.component';
+import { CheckComponent } from './check/check.component';
 
 declare const window: any;
 
@@ -51,6 +52,8 @@ export class AppComponent implements OnInit {
 
     public verified: boolean = false;
     public isLoading: boolean = false;
+
+    public checksOpen: boolean = false;
 
     constructor(private contractService: ContractService, 
         public dialog: MatDialog,
@@ -153,7 +156,7 @@ export class AppComponent implements OnInit {
             // try to resolve the ens
             realAddr = await this.resolveENS(address);
             if (realAddr == null) {
-                this.openSnackBar("Invalid address, expected 42 chars.", "close");
+                this.openSnackBar("invalid address", "close");
                 return null;
             }
         } else {
@@ -191,12 +194,20 @@ export class AppComponent implements OnInit {
         this.isLoading = true;
         this.getCommits(this.address).then((commits: Commit[] | null) => {
             this.setTimestamps(commits).then((dated: Commit[] | null) => {
-                if (dated == null) { return; }
                 this.isLoading = false;
+                if (dated == null) { return; }
                 this.commits = dated;
-                this.getENSName(this.address);
+                this.getENSName(this.address).then(() => {
+                    this.dialog.open(CheckComponent, {
+                        panelClass: 'no-padding',
+                        data: {commits: dated, addr: this.displayName, verified: this.verified },
+                        width: '600px',
+                        height: '770px',
+                    });
+                });
             })
         });
+    
     }
         
     openMetamask(){

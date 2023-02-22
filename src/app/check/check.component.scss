@@ -1,16 +1,16 @@
 .app-check-container {
-    width: 60%;
+    width: 100%;
     min-width: 300px;
     max-width: 600px;
     margin: auto auto;
     text-align: center;
+    background-color: black;
 }
 
 .checks-canvas-title {
     background-color: white;
     color: black;
     text-align: left;
-    margin-bottom: 10px;
 }
 
 .checks-title-input {
@@ -28,12 +28,9 @@
 }
 
 .checks-canvas {
-    margin-top: 10px;
-    border-color: #FFF;
+    border-color: white;
     border-style: solid;
-    border-width: 5px;
-    border-radius: 10px;
-    margin-top: 15px !important;
+    border-width: 1px;
     overflow-y: hidden;
     overflow-x: auto;
     color: white;
@@ -47,16 +44,16 @@
 }
 
 #checks-config {
-    padding: 20px;
+    padding: 15px;
     border-color: #FFF;
     border-style: solid;
-    margin-top: 15px !important;
     height: 200px;
     overflow-x: auto;
     color: black;
     background-color: white;
     text-align: center;
     overflow-y: hidden;
+    font-size: 10px;
 }
 
 #checks-config > * {
@@ -64,16 +61,17 @@
 }
 
 #check-items {
-    padding: 20px 70px;
+    padding: 30px 90px 20px 90px;
+    max-height: 360px;
+    display: inline-block !important;
 }
 
 .check-container {
     font-size: 8px;
     display: inline-block;
     width: 14%;
-    height: 40px;
+    height: 30px;
     text-align: center;
-
 }
 
 .right-spacer {
@@ -82,12 +80,14 @@
 
 #checks-owner {
     text-align: center;
+    height: 20px;
 }
 
 #checks-date {
     text-align: center;
     font-size: smaller;
-    margin-top: 10px;
+    margin: 10px 0;
+    height: 20px;
 }
 
 .check-config {
@@ -125,4 +125,12 @@
 .verified-check {
     margin: 0 0 -1px 5px;
 
+}
+
+.color-select {
+    width: 150px !important;
+}
+
+#checks-display {
+    min-height: 400px;
 }
