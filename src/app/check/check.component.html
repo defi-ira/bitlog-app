@@ -34,7 +34,7 @@
     
             <div class="check-config">
                 <mat-form-field>
-                    <mat-label style="color: black;">primary color</mat-label>
+                    <mat-label style="color: black;">primary</mat-label>
                     <mat-select class="color-select" style="color: black; width: 100px;" [(value)]="primaryColor" (selectionChange)="updateTimestamp()">
                         <mat-option *ngFor="let color of colors" [value]="color">
                             {{ color }}
@@ -45,7 +45,7 @@
             </div>
             <div class="check-config" style="margin-top:0;">
                 <mat-form-field>
-                    <mat-label style="color: black;">secondary color</mat-label>
+                    <mat-label style="color: black;">secondary</mat-label>
                     <mat-select class="color-select" style="color: black; width: 100px;" [(value)]="secondaryColor" (selectionChange)="updateTimestamp()">
                         <mat-option *ngFor="let color of colors" [value]="color">
                             {{ color }}
