@@ -197,6 +197,7 @@ export class AppComponent implements OnInit {
                 this.isLoading = false;
                 if (dated == null) { return; }
                 this.commits = dated;
+                console.log(dated);
                 this.getENSName(this.address).then(() => {
                     this.dialog.open(CheckComponent, {
                         panelClass: 'no-padding',
