@@ -5,7 +5,7 @@
         </a>
       
         <span class="right-spacer"></span>
-        <button mat-button color="accent" id="add-commit-button" (click)="openAddCommitDialog()">Write History</button>
+        <button mat-button color="accent" id="add-commit-button" (click)="openAddCommitDialog()">Write</button>
         <button *ngIf="!walletConnected()" mat-raised-button color="primary" style="color: black;" (click)="openMetamask()">Connect Wallet</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="disconnect()" style="margin-right: 10px;">Disconnect</button>
         <button *ngIf="walletConnected()" mat-raised-button color="primary" (click)="openMetamask()">{{ userDisplayName }}</button>
@@ -25,8 +25,17 @@
             <mat-label>address</mat-label>
             <input matInput placeholder="Ox..." [(ngModel)]="address">
         </mat-form-field>
-        <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View History</button>
+        <button mat-raised-button color="primary" class="small-form-button" (click)="viewAddress($event)">View</button>
     </div>
+
+    <div>
+        <h3 style="text-align: center; color: white; margin-top:20px;">Or</h3>
+    </div>
+
+    <div class="view-random-button">
+        <button mat-raised-button color="primary" class="small-form-button" (click)="viewMock()">Randomize</button>
+    </div>
+
 
     <mat-spinner *ngIf="isLoading" color="accent" class="loading-spinner"></mat-spinner>
 

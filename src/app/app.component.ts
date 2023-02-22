@@ -28,6 +28,16 @@ export class AppComponent implements OnInit {
     private contract_address = environment.ARB_CONTRACT_ADDR;
     private ensContractAddress = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";
 
+    private nameList: string[] = ["stevejobs.eth", "marcusaurelieus.eth", "peterthiel.eth", "elonmusk.eth", "georgewashington.eth", "satoshi.eth"];
+    private titleList: string[] = [
+        "apple lisa contour design",
+        "programmable internet money poc",
+        "rocketship vertical landing calculators",
+        "first weeks writing down stoicisms",
+        "a general solution to the byzantine generals problem",
+    ];
+    private dummyBigInt: string = "0x00";
+
     public eth_config = {
         apiKey: environment.ALCHEMY_ETH_KEY,
         network: Network.ETH_MAINNET,
@@ -205,7 +215,7 @@ export class AppComponent implements OnInit {
                     addrList.push(this.shortAddress(this.viewingAddress));
                     this.dialog.open(CheckComponent, {
                         panelClass: 'no-padding',
-                        data: {commits: dated, addrList: addrList, verified: this.verified },
+                        data: {commits: dated, addrList: addrList, verified: this.verified, title: '' },
                         width: '600px',
                         height: '770px',
                     });
@@ -214,8 +224,39 @@ export class AppComponent implements OnInit {
         });
     
     }
+
+    public viewMock() {
+        this.dialog.open(CheckComponent, {
+            panelClass: 'no-padding',
+            data: {commits: this.getRandomCommits(new Date()), addrList: [this.getRandomName()], verified: false, title: this.getRandomTitle() },
+            width: '600px',
+            height: '770px',
+        });
+    }
+
+    public getRandomName(): string {
+        return this.nameList[Math.floor(Math.random() * (this.nameList.length))];
+    }
+
+    public getRandomTitle(): string {
+        return this.titleList[Math.floor(Math.random() * (this.titleList.length))];
+    }
+
+    public getRandomCommits(from: Date): Commit[] {
+        let mockList: Commit[] = [];
+        for (let i = 0; i < 33; i++) {
+            let offset: number = Math.floor(Math.random() * 58);
+            let commit = new Commit(this.dummyBigInt, this.dummyBigInt, this.dummyBigInt);
+            const date = new Date();
+            date.setDate(from.getDate() - offset);
+            commit.setDate(date);
+            mockList.push(commit);
+        }
+        return mockList;
+    }
+
         
-    openMetamask(){
+    public openMetamask(){
         this.contractService.openMetamask().then(resp =>{
             this.connectedWallet = resp;
             this.address = this.connectedWallet;

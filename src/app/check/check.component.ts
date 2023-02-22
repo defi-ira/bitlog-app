@@ -7,6 +7,7 @@ export interface DialogData {
     commits: Commit[];
     addrList: string[];
     verified: boolean;
+    title: string;
 }
 
 @Component({
@@ -55,6 +56,7 @@ export class CheckComponent implements OnInit {
         this.addrList = data.addrList;
         this.verified = data.verified;
         this.addr = this.addrList[0];
+        this.title = data.title;
 
         this.dateMap = new Map();
         this.dateList = [];
@@ -66,7 +68,8 @@ export class CheckComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+        this.randomizePrimary();
+        this.randomizeSecondary();
     }
 
     public createDateSets(commits: Commit[]) {
@@ -148,6 +151,8 @@ export class CheckComponent implements OnInit {
     }
 
     public cycleDisplayName() {
+        if (this.addrList.length == 1) { return; }
+
         if(this.addrIndex == (this.addrList.length - 1)) {
             this.addrIndex = 0;
         }
