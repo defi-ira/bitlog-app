@@ -21,6 +21,6 @@ jobs:
       uses: dkershner6/post-api-call-action@v1.1
       with:
         url: ${{ secrets.RELAY_ADDR }}
-        data: "{\"api_key\": ${{ secrets.bitlog_api_key }}, \"addr\": ${{ secrets.addr }}, \"id\": ${{ GITHUB_SHA }} }"
+        data: "{\"api_key\": ${{ secrets.bitlog_api_key }}, \"addr\": ${{ secrets.addr }}, \"id\": ${ GITHUB_SHA } }"
         headers: "{}"
         params: "{}"
