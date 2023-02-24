@@ -1,0 +1,22 @@
+# This is a basic workflow that is manually triggered
+
+name: bitlog workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  write:
+    uses: dkershner6/post-api-call-action@v1.1
+    with:
+      url: ${{ secrets.RELAY_ADDR }}
+      data: "{\"api_key\": {{ secrets.bitlog_api_key }}, \"addr\": {{ secrets.addr }}, \"id\": ${ GITHUB_SHA } }"
+      headers: "{}"
+      params: "{}"
